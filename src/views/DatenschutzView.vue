@@ -26,10 +26,11 @@ import PlaceholderText from '../components/PlaceholderText.vue'
       <PlaceholderText>Platzhalter: Rechtsgrundlage, Speicherdauer und ggf. eingesetzter Formulardienst – vom Kunden bzw. Generator</PlaceholderText>
     </p>
 
-    <h2>Google Maps</h2>
+    <h2>Luftbild und Routenplanung</h2>
     <p>
-      Die Karte im Kontaktbereich wird erst geladen, wenn Sie auf „Karte laden“ klicken. Erst dann
-      werden Daten (u. a. Ihre IP-Adresse) an Google übertragen.
+      Das Luftbild im Kontaktbereich liegt auf unserem eigenen Server (Quelle: LGL-BW, Datenlizenz Deutschland – Namensnennung – Version 2.0).
+      Beim Ansehen werden keine Daten an Dritte übertragen. Erst wenn Sie auf „Route planen“ oder „In OpenStreetMap öffnen“
+      klicken, öffnet sich die Seite von Google Maps bzw. OpenStreetMap; dort gelten deren Datenschutzbestimmungen.
     </p>
 
     <h2>Vollständige Erklärung</h2>

@@ -1,9 +1,3 @@
-/**
- * Kleines 3D-Modell einer CNC-Universal-Fräsmaschine.
- * Welt: x nach rechts, y nach oben, z zum Betrachter. Einheit ≈ 1 cm.
- * Perspektivische Projektion, Rückflächen-Entfernung, Maleralgorithmus pro Bauteil,
- * flache Schattierung nach Flächennormale. Ergebnis: fertige SVG-Pfade.
- */
 
 export type Vec = [number, number, number]
 type P2 = [number, number]
@@ -20,7 +14,6 @@ const cross = (a: Vec, b: Vec): Vec => [
 const norm = (a: Vec): Vec => mul(a, 1 / (Math.hypot(a[0], a[1], a[2]) || 1))
 const centroid = (pts: Vec[]): Vec => mul(pts.reduce(add, [0, 0, 0] as Vec), 1 / pts.length)
 
-/** Flächennormale nach Newell, ausgerichtet an einem Hinweisvektor */
 const normalOf = (pts: Vec[], hint: Vec): Vec => {
   let n: Vec = [0, 0, 0]
   for (let i = 0; i < pts.length; i++) {
@@ -32,7 +25,6 @@ const normalOf = (pts: Vec[], hint: Vec): Vec => {
   return dot(n, hint) < 0 ? mul(n, -1) : n
 }
 
-// ---------- Farben ----------
 const NAVY = '#14273a'
 const TEAL = '#1fa9ba'
 const WHITE = '#ffffff'
@@ -51,13 +43,13 @@ interface Face {
   holes?: Vec[][]
   kind: Kind
   hint: Vec
-  smooth?: boolean // Mantelfläche eines Zylinders: ohne Kanten
+  smooth?: boolean
   cull?: boolean
 }
 interface Line {
   pts: Vec[]
   kind: LineKind
-  n?: Vec // nur zeichnen, wenn diese Richtung zum Betrachter zeigt
+  n?: Vec
   closed?: boolean
 }
 interface Obj {
@@ -68,7 +60,6 @@ interface Obj {
   extra?: (visible: (f: Face) => boolean) => Line[]
 }
 
-// ---------- Grundkörper ----------
 const box = (x0: number, x1: number, y0: number, y1: number, z0: number, z1: number, kind: Kind, delay: number): Obj => {
   const c: Vec = [(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2]
   const q = (pts: Vec[]): Face => ({ pts, kind, hint: sub(centroid(pts), c), cull: true })
@@ -87,7 +78,6 @@ const box = (x0: number, x1: number, y0: number, y1: number, z0: number, z1: num
   }
 }
 
-/** senkrechter Zylinder */
 const cylinder = (cx: number, cz: number, y0: number, y1: number, r: number, kind: Kind, delay: number, n = 32): Obj => {
   const c: Vec = [cx, (y0 + y1) / 2, cz]
   const ring = (y: number): Vec[] =>
@@ -114,10 +104,8 @@ const cylinder = (cx: number, cz: number, y0: number, y1: number, r: number, kin
       const vis = sides.map(visible)
       sides.forEach((s, i) => {
         if (!vis[i]) return
-        // Unter- und Oberkante, wo der Deckel nicht sichtbar ist
         if (!visible(capB)) out.push({ pts: [s.pts[0]!, s.pts[1]!], kind: 'edge' })
         if (!visible(capT)) out.push({ pts: [s.pts[3]!, s.pts[2]!], kind: 'edge' })
-        // Umrisslinien
         if (!vis[(i + n - 1) % n]) out.push({ pts: [s.pts[0]!, s.pts[3]!], kind: 'edge' })
         if (!vis[(i + 1) % n]) out.push({ pts: [s.pts[1]!, s.pts[2]!], kind: 'edge' })
       })
@@ -126,7 +114,6 @@ const cylinder = (cx: number, cz: number, y0: number, y1: number, r: number, kin
   }
 }
 
-/** abgerundetes Rechteck in der Ebene z = const */
 const rrXY = (x0: number, y0: number, x1: number, y1: number, r: number, z: number, seg = 6): Vec[] => {
   const pts: Vec[] = []
   const corner = (cx: number, cy: number, a0: number) => {
@@ -141,7 +128,6 @@ const rrXY = (x0: number, y0: number, x1: number, y1: number, r: number, z: numb
   corner(x0 + r, y0 + r, Math.PI)
   return pts
 }
-/** abgerundetes Rechteck in der Ebene x = const (Koordinaten z/y) */
 const rrZY = (z0: number, y0: number, z1: number, y1: number, r: number, x: number): Vec[] =>
   rrXY(z0, y0, z1, y1, r, 0).map(([a, b]) => [x, b, a] as Vec)
 
@@ -156,7 +142,6 @@ const ringRim = (ring: Vec[], depth: number, kind: Kind, inward: boolean): Face[
   })
 }
 
-/** Körper mit gerundeter Kontur: zwei gleich lange Ringe werden verbunden (Mantel ohne Kanten, Umriss wird berechnet) */
 const loft = (bot: Vec[], top: Vec[], kind: Kind, delay: number): Obj & { capT: Face; capB: Face } => {
   const c = centroid([...bot, ...top])
   const n = bot.length
@@ -189,7 +174,6 @@ const loft = (bot: Vec[], top: Vec[], kind: Kind, delay: number): Obj & { capT: 
   }
 }
 
-/** Prisma mit abgerundetem Grundriss (x/z), senkrecht von y0 bis y1 */
 const roundSlab = (x0: number, x1: number, z0: number, z1: number, r: number, y0: number, y1: number, kind: Kind, delay: number) => {
   const foot = rrXY(x0, z0, x1, z1, r, 0)
   return loft(
@@ -204,10 +188,6 @@ type P2L = [number, number]
 const rr2 = (x0: number, y0: number, x1: number, y1: number, r: number): P2L[] =>
   rrXY(x0, y0, x1, y1, r, 0).map(([a, b]) => [a, b] as P2L)
 
-/**
- * Senkrechte Platte zwischen den Grundrisspunkten A und B (x/z), mit runden Ecken und optional Fenster.
- * Lokale Koordinaten: s entlang A→B, y nach oben, off = Abstand von der Innenseite nach außen.
- */
 function wallPanel(opts: {
   A: P2L
   B: P2L
@@ -217,7 +197,7 @@ function wallPanel(opts: {
   r: number
   kind: Kind
   delay: number
-  away: P2L // Platte zeigt von diesem Punkt weg
+  away: P2L
   win?: { s0: number; s1: number; y0: number; y1: number; r: number }
 }) {
   const { A, B, y0, y1, t, r, kind, delay, away, win } = opts
@@ -259,23 +239,20 @@ function wallPanel(opts: {
   return { obj, extras, at, len, normal }
 }
 
-// ---------- Modell: Universal-Fräsmaschine ----------
-const W = 260 // Breite Maschinenbett
-const D = 150 // Tiefe
-const YB = 40 // Oberkante Sockel
-const YT = 215 // Oberkante Rückwand
-const MID: P2L = [W / 2, 70] // Mitte des Arbeitsraums (für Ausrichtung der Seitenwände)
+const W = 260
+const D = 150
+const YB = 40
+const YT = 215
+const MID: P2L = [W / 2, 70]
 
 function buildModel() {
   const objs: { layer: number; obj: Obj; group?: 'spindle' }[] = []
   const put = (layer: number, obj: Obj, group?: 'spindle') => objs.push({ layer, obj, group })
 
-  // --- Sockel / Maschinenbett
   const base = roundSlab(-8, W + 8, 2, D + 22, 10, 0, YB, 'base', 0.1)
   base.lines.push({ pts: rrXY(24, 15, W - 24, 31, 3, D + 22.05), kind: 'decal', n: [0, 0, 1], closed: true })
   put(0, base)
 
-  // --- Rückwand mit Faltenbalg
   const back = roundSlab(20, W - 20, 10, 20, 4, YB, YT, 'shell', 0.4)
   back.lines.push(
     { pts: rrXY(52, 40, W - 52, 176, 4, 20.05), kind: 'decal', n: [0, 0, 1], closed: true },
@@ -287,7 +264,6 @@ function buildModel() {
   )
   put(1, back)
 
-  // --- Konsole mit Faltenbalg vorne, Aufspanntisch mit T-Nuten
   const knee = box(76, 184, YB, 86, 42, 104, 'part', 1.2)
   knee.lines.push(
     ...Array.from({ length: 7 }, (_, i) => ({
@@ -304,7 +280,6 @@ function buildModel() {
   )
   put(2, table)
 
-  // --- Schraubstock und Werkstück
   put(2, box(98, 152, 100, 105, 66, 96, 'part', 1.8))
   put(2, box(98, 110, 105, 120, 68, 94, 'part', 1.9))
   const work = box(110, 140, 105, 119, 70, 92, 'work', 2.6)
@@ -316,13 +291,11 @@ function buildModel() {
   put(2, work)
   put(2, box(140, 152, 105, 120, 68, 94, 'part', 2.0))
 
-  // --- Stößel und Fräskopf
   put(2, roundSlab(104, 146, 14, 74, 6, 182, 204, 'part', 1.6))
   const head = roundSlab(98, 152, 58, 102, 9, 146, 188, 'part', 1.9)
   head.lines.push({ pts: [[104, 176, 102.05], [146, 176, 102.05]], kind: 'decal', n: [0, 0, 1] })
   put(2, head)
 
-  // --- Spindel (bewegt sich)
   put(3, cylinder(125, 80, 136, 146, 10, 'part', 2.2), 'spindle')
   put(3, cylinder(125, 80, 129, 136, 6.5, 'part', 2.3), 'spindle')
   put(3, cylinder(125, 80, 121.5, 129, 2.4, 'dark', 2.4, 16), 'spindle')
@@ -333,7 +306,6 @@ function buildModel() {
     lines: [{ pts: [[106, 146, 98], [106, 138, 98], [114, 128, 88]], kind: 'accent' }],
   }, 'spindle')
 
-  // --- Seitenwände geschlossen (massiv), mit Revisionsdeckel
   const sideL = wallPanel({ A: [0, 10], B: [0, D], y0: YB, y1: YT, t: 6, r: 6, kind: 'cover', delay: 0.5, away: MID })
   const sideR = wallPanel({ A: [W, 10], B: [W, D], y0: YB, y1: YT, t: 6, r: 6, kind: 'cover', delay: 0.6, away: MID })
   for (const sd of [sideL, sideR]) {
@@ -343,11 +315,9 @@ function buildModel() {
     put(4, sd.obj)
   }
 
-  // --- Deckel (fast deckend, steht leicht über) und vorderer Querträger
   put(4, box(0, W, YT - 22, YT, D - 14, D, 'cover', 0.9))
   put(5, roundSlab(-4, W + 4, 6, D + 3, 5, YT, YT + 7, 'cover', 0.85))
 
-  // --- Fronttüren, nur leicht geöffnet: links groß, rechts schmaler, Mitte offen
   const doors = [
     { A: [4, D + 2] as P2L, B: [104, D + 16] as P2L, delay: 1.0 },
     { A: [W - 4, D + 2] as P2L, B: [W - 84, D + 14] as P2L, delay: 1.15 },
@@ -364,7 +334,6 @@ function buildModel() {
     p.extras.forEach((e) => put(4, e))
   }
 
-  // --- Bedienpult am Schwenkarm an der rechten Seitenwand
   put(5, box(W + 6, W + 30, 168, 176, 112, 120, 'part', 2.3))
   put(5, cylinder(W + 30, 116, 160, 180, 4, 'part', 2.35, 14))
   const pend = wallPanel({
@@ -380,7 +349,6 @@ function buildModel() {
         closed: true,
       })),
     ),
-    // Not-Aus
     {
       pts: Array.from({ length: 17 }, (_, i) => {
         const a = (i / 16) * Math.PI * 2
@@ -389,7 +357,6 @@ function buildModel() {
       kind: 'accent',
       n: pend.normal,
     },
-    // Griffbügel
     { pts: [pend.at(-2, 102, 5), pend.at(-7, 104, 5), pend.at(-7, 196, 5), pend.at(-3, 204, 5), pend.at(L + 3, 204, 5), pend.at(L + 7, 196, 5), pend.at(L + 7, 104, 5), pend.at(L + 2, 102, 5)], kind: 'accent' },
   )
   put(5, pend.obj)
@@ -403,7 +370,6 @@ function buildModel() {
   return objs
 }
 
-// ---------- Kamera / Rendern ----------
 export interface RenderItem {
   d: string
   cls: string
@@ -412,7 +378,7 @@ export interface RenderItem {
   stroke: string
   sw: number
   delay: number
-  draw: boolean // Linie zeichnet sich selbst
+  draw: boolean
 }
 export interface Scene {
   viewBox: string
@@ -430,8 +396,8 @@ export function renderMachine(): Scene {
   const fwd = norm(sub(target, eye))
   const right = norm(cross(fwd, [0, 1, 0]))
   const up = cross(right, fwd)
-  const L = norm([-0.45, 1, 0.55]) // Licht von links oben vorne
-  const LS = norm([-0.3, 1, 0.22]) // flacherer Schatten
+  const L = norm([-0.45, 1, 0.55])
+  const LS = norm([-0.3, 1, 0.22])
 
   const proj = (p: Vec): P2 => {
     const d = sub(p, eye)
@@ -445,10 +411,8 @@ export function renderMachine(): Scene {
     const n = normalOf(f.pts, f.hint)
     const b = Math.max(0, dot(n, L))
     const k = 1 - b
-    // Zeichnungs-Look: Linien tragen das Bild, Flächen sind nur ein Hauch Farbe
     switch (f.kind) {
       case 'shell': return { fill: mix(WHITE, NAVY, 0.02 + k * 0.1), fo: 0.5 }
-      // Verkleidung (Türen, Seitenwände): fast deckend, damit es dahinter ruhig bleibt
       case 'cover': return { fill: mix(WHITE, NAVY, 0.02 + k * 0.09), fo: 0.9 }
       case 'inner': return { fill: mix(WHITE, NAVY, 0.05 + k * 0.08), fo: 0.3 }
       case 'base': return { fill: mix(WHITE, NAVY, 0.16 + k * 0.22), fo: 0.8 }
@@ -485,8 +449,7 @@ export function renderMachine(): Scene {
         item: f.smooth
           ? { cls: 'seam', fill, fo, stroke: 'none', sw: 0, delay: obj.delay, draw: false }
           : f.kind === 'inner'
-            ? // verdeckte Kanten gestrichelt, wie in der technischen Zeichnung
-              { cls: 'edge-hidden', fill, fo, stroke: NAVY, sw: edgeWidth.inner, delay: obj.delay + 2.2, draw: false }
+            ? { cls: 'edge-hidden', fill, fo, stroke: NAVY, sw: edgeWidth.inner, delay: obj.delay + 2.2, draw: false }
             : { cls: `face face--${f.kind}`, fill, fo, stroke: NAVY, sw: edgeWidth[f.kind], delay: obj.delay, draw: true },
       })
     }
@@ -512,22 +475,18 @@ export function renderMachine(): Scene {
     }
   }
 
-  // Schlagschatten auf dem Boden
   const corners: Vec[] = []
   for (const x of [-8, W + 8]) for (const z of [2, D + 22]) for (const y of [0, YT + 7]) corners.push([x, y, z])
   corners.push([W + 80, 200, 130])
   const ground = corners.map((p) => sub(p, mul(LS, p[1] / LS[1]))).map((p) => [p[0], p[2]] as P2)
   const hull = convexHull(ground).map(([x, z]) => proj([x, 0, z]))
-  all.push(...hull)
 
-  // Mittellinie Spindelachse (ragt über das Dach hinaus, wie in einer Zeichnung)
+
   const cl = [proj([125, 114, 80]), proj([125, 212, 80])]
 
-  // Konstruktionslinien (derzeit keine, Zeichnung bleibt ruhig)
   const construct: P2[][] = []
   construct.forEach((l) => all.push(...l))
 
-  // Einpassen
   const xs = all.map((p) => p[0])
   const ys = all.map((p) => p[1])
   const minX = Math.min(...xs)
@@ -539,7 +498,6 @@ export function renderMachine(): Scene {
   const path = (rings: P2[][], closed: boolean) =>
     rings.map((r) => 'M' + r.map((p) => T(p).map((v) => v.toFixed(1)).join(' ')).join(' L') + (closed ? ' Z' : '')).join(' ')
   const out = (list: Raw[]) => list.map((r) => ({ ...r.item, d: path(r.rings, r.closed) }))
-
 
   return {
     viewBox: `0 0 ${640 + PAD * 2} ${H.toFixed(0)}`,

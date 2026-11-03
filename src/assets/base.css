@@ -1,24 +1,21 @@
 @import 'tailwindcss';
 
-/* Markenfarben, Schriften und Maße – erzeugt Klassen wie text-navy, bg-teal, font-brand, max-w-wrap, px-pad */
 @theme static {
   --color-navy: #14273a;
-  --color-teal: #1fa9ba; /* Akzent auf dunklem Grund, Grafiken */
-  --color-teal-dark: #087a88; /* Akzent für Text auf Weiß (Kontrast) */
+  --color-teal: #1fa9ba;
+  --color-teal-dark: #087a88;
   --color-paper: #f4f6f8;
 
-  /* Schrift der Seite */
-  --font-sans: 'Fira Code', ui-monospace, monospace;
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Fira Code', ui-monospace, monospace;
-  /* Schriftzug SCHÜSSELE PRÄZISION (Logo, Header, Footer) */
   --font-brand: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
 
-  --breakpoint-nav: 53.75rem; /* ab hier Desktop-Navigation */
+  --breakpoint-nav: 53.75rem;
   --container-wrap: 73.75rem;
+  --container-wide: 100rem;
   --spacing-pad: clamp(1.25rem, 4vw, 2.5rem);
 }
 
-/* Karopapier wie auf einem Zeichenblatt */
 @utility bg-grid {
   background-image:
     linear-gradient(rgb(20 39 58 / 0.06) 1px, transparent 1px),
@@ -30,11 +27,22 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6.5rem;
+    scroll-padding-top: 8rem;
   }
   body {
     @apply bg-white font-sans text-base leading-[1.65] text-navy antialiased;
-    /* Code-Ligaturen von Fira Code aus (sonst werden z. B. „www“ oder „--“ zu Sonderzeichen) */
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-mono);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-mono {
     font-feature-settings: 'calt' 0, 'liga' 0;
   }
   a {

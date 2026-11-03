@@ -1,13 +1,4 @@
 <script setup lang="ts">
-/**
- * Logo Schüssele Präzision als Vektorgrafik (nachgebaut nach src/assets/Logo.jpeg).
- * Koordinaten entsprechen dem Original (1028 × 674 px), damit Proportionen stimmen.
- *
- * variant  'full' = Zahnrad mit Beschriftung + Wortmarke (gestapelt)
- *          'mark' = nur Zahnrad mit Linien und Punkten (für kleine Größen, z. B. Header)
- * tone     'light' = für weißen Grund, 'dark' = für Navy-Grund
- * animate  Linien zeichnen sich beim Laden selbst
- */
 withDefaults(
   defineProps<{
     variant?: 'full' | 'mark'
@@ -19,9 +10,9 @@ withDefaults(
 
 const CX = 510
 const CY = 234
-const R = 172 // Zahnkopf
-const RN = 36 // Radius der Zahnlücken
-const RI = 77 // innerer Ring
+const R = 172
+const RN = 36
+const RI = 77
 
 const pt = (deg: number, r = R): [number, number] => {
   const a = (deg * Math.PI) / 180
@@ -33,13 +24,11 @@ const Y_TOP = 133.5
 const Y_MID = 234.5
 const Y_BOT = 336.5
 
-/** Schnittpunkt Lückenkreis (Mitte bei Winkel deg) mit waagerechter Linie, linke Seite */
 const notchAtY = (deg: number, y: number): [number, number] => {
   const [nx, ny] = pt(deg)
   return [nx - Math.sqrt(RN * RN - (y - ny) ** 2), y]
 }
 
-// Außenkontur: von der oberen Linie über das Zahnrad bis zur unteren Linie
 const gearPath = (() => {
   const top = notchAtY(39, Y_TOP)
   const bot = notchAtY(309, Y_BOT)
@@ -51,16 +40,13 @@ const gearPath = (() => {
   return d
 })()
 
-// innerer Ring (offenes „C“), geht rechts in die mittlere Linie über
 const ringPath = `M${f(pt(-28, RI))} A${RI} ${RI} 0 1 1 ${f(pt(0, RI))} H602`
 
-// Linien hinter der Beschriftung, mit Punkt am Ende
 const ends = [
   { x1: 720, x2: 733, y: Y_TOP, dot: 738 },
   { x1: 839, x2: 853, y: Y_MID, dot: 858 },
   { x1: 717, x2: 730, y: Y_BOT, dot: 735 },
 ]
-// Bildmarke ohne Beschriftung: Linien so lang wie im Original (Mitte am längsten)
 const markEnds = [
   { x: 626, y: Y_TOP, dot: 738 },
   { x: 602, y: Y_MID, dot: 858 },
@@ -138,7 +124,6 @@ const labels = [
 </template>
 
 <style scoped>
-/* Größe kommt per Tailwind-Klasse von außen (z. B. h-10 w-auto) */
 .logo {
   overflow: visible;
 }
@@ -150,7 +135,6 @@ const labels = [
   stroke-linecap: butt;
   stroke-linejoin: miter;
 }
-/* Bildmarke: feste Linienstärke unabhängig von der Größe, sonst wird sie im Header zu dünn */
 .logo--mark .lines path {
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
@@ -181,7 +165,6 @@ const labels = [
   fill: var(--logo-line);
 }
 
-/* Farben */
 .logo--dark {
   --logo-line: var(--color-teal);
   --logo-label: var(--color-teal);
@@ -192,12 +175,10 @@ const labels = [
   --logo-label: var(--color-teal-dark);
   --logo-word: var(--color-navy);
 }
-/* Schrift auf Weiß braucht das dunkle Türkis (Kontrast) */
 .logo--light .wm-thin {
   fill: var(--color-teal-dark);
 }
 
-/* Linien zeichnen sich selbst */
 .logo--animate .draw {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;

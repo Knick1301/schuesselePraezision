@@ -23,7 +23,8 @@ Firmenwebseite für einen kleinen, inhabergeführten Zerspanungsbetrieb (CNC-Dre
 ## Design
 
 - Farben: Navy `#14273A` (Schrift, Linien), Türkis `#1FA9BA` (Akzent auf dunklem Grund, Grafiken), dunkles Türkis `#087A88` (Akzent für Text auf Weiß – wegen Kontrast), Weiß als Grund
-- Schrift: Fira Code für die ganze Seite (`font-sans`/`font-mono`, Ligaturen aus). Montserrat nur für die Wortmarke („SCHÜSSELE" fett, „PRÄZISION" mit Sperrung in Türkis) über `font-brand` – wie auf der Visitenkarte.
+- Schrift: Fira Code für Überschriften und Technisches (Telefon, Maße, Platzhalter, Schriftfeld) über `font-mono`, Ligaturen aus. Montserrat für Fließtext, Buttons, Navigation, Formulare (`font-sans`) und die Wortmarke (`font-brand`).
+- Keine Deko-Labels in kleinen gesperrten Großbuchstaben, keine Häkchen-Listen – wirkt nach Vorlage.
 - Leitidee: Die Seite greift die Sprache technischer Zeichnungen auf (dünne Linien, Bemaßung, Stückliste, Schriftfeld) – zurückhaltend, nicht verspielt
 - Logo: Zahnrad mit Linien zu „Drehen", „Metallbearbeitung", „Fräsen"
 
@@ -45,7 +46,7 @@ Firmenwebseite für einen kleinen, inhabergeführten Zerspanungsbetrieb (CNC-Dre
 
 - Impressum und Datenschutzerklärung sind Pflicht (Inhalte kommen vom Kunden / Generator, nicht selbst ausdenken).
 - Google Fonts lokal einbinden, nicht von Google laden (Datenschutz).
-- Karten (Google Maps) erst nach Klick laden.
+- Keine eingebetteten Karten: Luftbild vom LGL-BW liegt lokal (`AerialView.vue`), Quellenangabe „LGL-BW (Jahr), Datenlizenz Deutschland – Namensnennung – Version 2.0“ ist Pflicht. Route nur als Link.
 
 ## Noch offen (beim Kunden erfragen)
 
@@ -54,3 +55,5 @@ Firmenwebseite für einen kleinen, inhabergeführten Zerspanungsbetrieb (CNC-Dre
 - Typische Werkstoffe und Stückzahlen, Kundenbranchen
 - Was der Betrieb nicht macht
 - Fotos aus der Werkstatt
+- Antwortzeit auf Anfragen (Platzhalter auf der Anfrageseite)
+- Formulardienst für das Anfrageformular festlegen: Adresse als `VITE_ANFRAGE_ENDPOINT` (siehe `.env.example`), Dateilimit `MAX_MB` in `AnfrageView.vue` daran anpassen

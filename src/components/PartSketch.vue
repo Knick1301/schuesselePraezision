@@ -1,0 +1,326 @@
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+
+const props = defineProps<{ type: 'welle' | 'fraesteil' | 'winkel' }>()
+
+const root = ref<SVGSVGElement>()
+const drawn = ref(false)
+let observer: IntersectionObserver | undefined
+
+onMounted(() => {
+  if (!('IntersectionObserver' in window)) {
+    drawn.value = true
+    return
+  }
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        drawn.value = true
+        observer?.disconnect()
+      }
+    },
+    { threshold: 0.4 },
+  )
+  if (root.value) observer.observe(root.value)
+})
+onBeforeUnmount(() => observer?.disconnect())
+
+type P = [number, number]
+type Tone = 'light' | 'shine' | 'mid' | 'dark' | 'hole'
+interface Fill {
+  d: string
+  tone: Tone
+}
+const C30 = Math.cos(Math.PI / 6)
+const iso = (x: number, y: number, z: number, ox: number, oy: number): P => [ox + (x - y) * C30, oy + (x + y) * 0.5 - z]
+const line = (pts: P[], closed = false) => 'M' + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L') + (closed ? ' Z' : '')
+const isoEllipse = (cx: number, cy: number, z: number, r: number, ox: number, oy: number) => {
+  const pts: P[] = []
+  for (let i = 0; i <= 32; i++) {
+    const a = (i / 32) * Math.PI * 2
+    pts.push(iso(cx + r * Math.cos(a), cy + r * Math.sin(a), z, ox, oy))
+  }
+  return line(pts)
+}
+
+interface Layer {
+  fills: Fill[]
+  edges: string[]
+}
+
+const hull = (pts: P[]): P[] => {
+  const q = [...pts].sort((m, n) => m[0] - n[0] || m[1] - n[1])
+  const cr = (o: P, m: P, n: P) => (m[0] - o[0]) * (n[1] - o[1]) - (m[1] - o[1]) * (n[0] - o[0])
+  const lo: P[] = []
+  for (const t of q) {
+    while (lo.length >= 2 && cr(lo[lo.length - 2]!, lo[lo.length - 1]!, t) <= 0) lo.pop()
+    lo.push(t)
+  }
+  const up: P[] = []
+  for (const t of q.reverse()) {
+    while (up.length >= 2 && cr(up[up.length - 2]!, up[up.length - 1]!, t) <= 0) up.pop()
+    up.push(t)
+  }
+  return [...lo.slice(0, -1), ...up.slice(0, -1)]
+}
+
+const welle = (() => {
+  const ox = 20
+  const oy = 30
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const ring = (x: number, r: number, a0 = 0, a1 = 360, n = 40): P[] =>
+    Array.from({ length: n + 1 }, (_, i) => {
+      const t = ((a0 + ((a1 - a0) * i) / n) * Math.PI) / 180
+      return p(x, r * Math.cos(t), r * Math.sin(t))
+    })
+  const segs: [number, number, number][] = [
+    [0, 22, 6],
+    [22, 52, 10],
+    [52, 62, 14],
+    [62, 104, 10],
+    [104, 126, 7],
+  ]
+  const bands: [number, number, Tone][] = [
+    [-45, 0, 'dark'],
+    [0, 40, 'mid'],
+    [40, 75, 'light'],
+    [75, 105, 'shine'],
+    [105, 135, 'light'],
+  ]
+  const layers: Layer[] = segs.map(([x0, x1, r]) => {
+    const body = hull([...ring(x0, r), ...ring(x1, r)])
+    const fills: Fill[] = [{ d: line(body, true), tone: 'mid' }]
+    for (const [b0, b1, tone] of bands) {
+      const front = ring(x1, r, b0, b1, 8)
+      const back = ring(x0, r, b0, b1, 8).reverse()
+      fills.push({ d: line([...front, ...back], true), tone })
+    }
+    const cap = line(ring(x1, r), true)
+    fills.push({ d: cap, tone: 'mid' })
+    return { fills, edges: [line(body, true), cap] }
+  })
+  const kx0 = 70
+  const kx1 = 96
+  const kw = 3
+  const kz = Math.sqrt(10 * 10 - kw * kw)
+  const slot: P[] = [
+    ...Array.from({ length: 9 }, (_, i) => {
+      const t = Math.PI / 2 + (Math.PI * i) / 8
+      return p(kx0 + kw * Math.cos(t), kw * Math.sin(t), kz)
+    }),
+    ...Array.from({ length: 9 }, (_, i) => {
+      const t = -Math.PI / 2 + (Math.PI * i) / 8
+      return p(kx1 + kw * Math.cos(t), kw * Math.sin(t), kz)
+    }),
+  ]
+  const slotPath = line(slot, true)
+  layers[3]!.fills.push({ d: slotPath, tone: 'hole' })
+  layers[3]!.edges.push(slotPath)
+  return {
+    main: layers.flatMap((l) => l.edges),
+    center: line([p(-8, 0, 0), p(134, 0, 0)]),
+    fills: [] as Fill[],
+    layers,
+  }
+})()
+
+const fraesteil = (() => {
+  const ox = 80
+  const oy = 18
+  const L = 86
+  const B = 52
+  const H = 14
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const top = line([p(0, 0, H), p(L, 0, H), p(L, B, H), p(0, B, H)], true)
+  const sides = [line([p(0, B, H), p(0, B, 0), p(L, B, 0), p(L, B, H)]), line([p(L, B, 0), p(L, 0, 0), p(L, 0, H)])]
+  const px0 = 24
+  const px1 = 62
+  const py0 = 14
+  const py1 = 38
+  const d = 6
+  const pocket = [
+    line([p(px0, py0, H), p(px1, py0, H), p(px1, py1, H), p(px0, py1, H)], true),
+    line([p(px0, py0, H), p(px0, py0, H - d), p(px1, py0, H - d), p(px1, py0, H)]),
+    line([p(px0, py0, H - d), p(px0, py1, H - d), p(px0, py1, H)]),
+  ]
+  const holes = [
+    [10, 10],
+    [L - 10, 10],
+    [10, B - 10],
+    [L - 10, B - 10],
+  ].map(([x, y]) => isoEllipse(x!, y!, H, 4, ox, oy))
+  const fills: Fill[] = [
+    { d: line([p(0, B, H), p(L, B, H), p(L, B, 0), p(0, B, 0)], true), tone: 'mid' },
+    { d: line([p(L, 0, H), p(L, B, H), p(L, B, 0), p(L, 0, 0)], true), tone: 'dark' },
+    { d: line([p(px0, py0, H - d), p(px1, py0, H - d), p(px1, py1, H - d), p(px0, py1, H - d)], true), tone: 'mid' },
+    { d: line([p(px0, py0, H), p(px1, py0, H), p(px1, py0, H - d), p(px0, py0, H - d)], true), tone: 'dark' },
+    { d: line([p(px0, py0, H), p(px0, py1, H), p(px0, py1, H - d), p(px0, py0, H - d)], true), tone: 'hole' },
+    ...holes.map((h) => ({ d: h + ' Z', tone: 'hole' as Tone })),
+    { d: [top, pocket[0], ...holes.map((h) => h + ' Z')].join(' '), tone: 'light' },
+  ]
+  return { main: [top, ...sides, ...pocket, ...holes], center: line([p(L / 2, -8, H), p(L / 2, B + 8, H)]), fills }
+})()
+
+const winkel = (() => {
+  const ox = 70
+  const oy = 30
+  const L = 70
+  const B = 40
+  const T = 6
+  const Hh = 42
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const base = [
+    line([p(0, 0, T), p(L, 0, T), p(L, B, T), p(T, B, T)]),
+    line([p(L, B, T), p(L, B, 0), p(0, B, 0), p(0, B, Hh), p(0, 0, Hh), p(T, 0, Hh), p(T, B, Hh), p(0, B, Hh)]),
+    line([p(L, 0, T), p(L, 0, 0), p(L, B, 0)]),
+    line([p(T, 0, Hh), p(T, 0, T)]),
+    line([p(T, B, Hh), p(T, B, T)]),
+    line([p(T, 0, T), p(T, B, T)]),
+  ]
+  const holes = [isoEllipse(L - 16, B / 2 - 9, T, 3.5, ox, oy), isoEllipse(L - 16, B / 2 + 9, T, 3.5, ox, oy)]
+  const wallHoles = [12, 28].map((y) => {
+    const pts: P[] = []
+    for (let i = 0; i <= 32; i++) {
+      const a = (i / 32) * Math.PI * 2
+      pts.push(p(T, y + 3.5 * Math.cos(a), 28 + 3.5 * Math.sin(a)))
+    }
+    return line(pts)
+  })
+  const fills: Fill[] = [
+    { d: line([p(0, B, 0), p(L, B, 0), p(L, B, T), p(T, B, T), p(T, B, Hh), p(0, B, Hh)], true), tone: 'mid' },
+    { d: line([p(L, 0, T), p(L, B, T), p(L, B, 0), p(L, 0, 0)], true), tone: 'dark' },
+    ...holes.map((h) => ({ d: h + ' Z', tone: 'hole' as Tone })),
+    ...wallHoles.map((h) => ({ d: h + ' Z', tone: 'hole' as Tone })),
+    { d: [line([p(T, 0, T), p(L, 0, T), p(L, B, T), p(T, B, T)], true), ...holes.map((h) => h + ' Z')].join(' '), tone: 'light' },
+    { d: [line([p(T, 0, T), p(T, B, T), p(T, B, Hh), p(T, 0, Hh)], true), ...wallHoles.map((h) => h + ' Z')].join(' '), tone: 'mid' },
+    { d: line([p(0, 0, Hh), p(T, 0, Hh), p(T, B, Hh), p(0, B, Hh)], true), tone: 'light' },
+  ]
+  return { main: [...base, ...holes, ...wallHoles], center: line([p(L - 16, -6, T), p(L - 16, B + 6, T)]), fills }
+})()
+
+const shape = computed(() => ({ welle, fraesteil, winkel })[props.type])
+
+const viewBox = computed(() => {
+  const nums = [shape.value.center, ...shape.value.main]
+    .flatMap((d) => [...d.matchAll(/[ML]\s*(-?[\d.]+)\s+(-?[\d.]+)/g)])
+    .map((m) => [Number(m[1]), Number(m[2])] as P)
+  const xs = nums.map((p) => p[0])
+  const ys = nums.map((p) => p[1])
+  const pad = 2
+  const x0 = Math.min(...xs) - pad
+  const y0 = Math.min(...ys) - pad
+  return `${x0.toFixed(1)} ${y0.toFixed(1)} ${(Math.max(...xs) - x0 + pad).toFixed(1)} ${(Math.max(...ys) - y0 + pad).toFixed(1)}`
+})
+</script>
+
+<template>
+  <svg ref="root" :viewBox="viewBox" preserveAspectRatio="xMinYMax meet" :class="['sketch', { 'is-drawn': drawn }]" aria-hidden="true">
+    <template v-if="'layers' in shape">
+      <g v-for="(layer, li) in shape.layers" :key="'l' + li">
+        <g class="fills">
+          <path v-for="(f, i) in layer.fills" :key="'f' + i" :d="f.d" :class="`tone-${f.tone}`" />
+        </g>
+        <path
+          v-for="(d, i) in layer.edges"
+          :key="'e' + i"
+          :d="d"
+          class="edge"
+          pathLength="1"
+          :style="{ '--i': li * 2 + i }"
+        />
+      </g>
+      <path :d="shape.center" class="center" />
+    </template>
+    <template v-else>
+      <g class="fills">
+        <path v-for="(f, i) in shape.fills" :key="'f' + i" :d="f.d" :class="`tone-${f.tone}`" />
+      </g>
+      <path :d="shape.center" class="center" />
+      <path
+        v-for="(d, i) in shape.main"
+        :key="i"
+        :d="d"
+        class="edge"
+        pathLength="1"
+        :style="{ '--i': i }"
+      />
+    </template>
+  </svg>
+</template>
+
+<style scoped>
+.sketch {
+  overflow: visible;
+}
+.edge {
+  fill: none;
+  stroke: var(--color-navy);
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.fills {
+  opacity: 0;
+}
+.fills path {
+  fill-rule: evenodd;
+  stroke: none;
+}
+.tone-shine {
+  fill: #f3f5f7;
+}
+.tone-light {
+  fill: #e6eaee;
+}
+.tone-mid {
+  fill: #ccd3da;
+}
+.tone-dark {
+  fill: #b0b9c3;
+}
+.tone-hole {
+  fill: #8d98a5;
+}
+.is-drawn .fills {
+  animation: fade 0.7s ease 1s forwards;
+}
+.center {
+  fill: none;
+  stroke: var(--color-teal-dark);
+  stroke-width: 0.7;
+  stroke-dasharray: 10 2.5 2 2.5;
+  opacity: 0;
+}
+.is-drawn .edge {
+  animation: draw 0.9s cubic-bezier(0.45, 0, 0.25, 1) calc(var(--i) * 0.08s) forwards;
+}
+.is-drawn .center {
+  animation: fade 0.6s ease 0.6s forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edge,
+  .is-drawn .edge {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .fills,
+  .is-drawn .fills,
+  .center,
+  .is-drawn .center {
+    animation: none;
+    opacity: 1;
+  }
+}
+</style>

@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import MillingMachine from '../components/MillingMachine.vue'
 import SectionTitle from '../components/SectionTitle.vue'
 import PlaceholderText from '../components/PlaceholderText.vue'
+import AerialView from '../components/AerialView.vue'
+import PartSketch from '../components/PartSketch.vue'
 
-const mapLoaded = ref(false)
-const mapSrc =
-  'https://www.google.com/maps?q=' +
-  encodeURIComponent('Vogesenstraße 1, 77743 Neuried') +
-  '&output=embed'
+const ADRESSE = 'Vogesenstraße 1, 77743 Neuried'
+const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADRESSE)}`
+
+const facts = [
+  { label: 'Stückzahlen', value: 'z. B. 1–500' },
+  { label: 'Werkstoffe', value: 'z. B. Stahl, Alu' },
+  { label: 'Region', value: 'z. B. Ortenau' },
+]
 
 const titleBlock = [
   { label: 'Betrieb', value: 'Schüssele Präzision' },
@@ -18,10 +22,11 @@ const titleBlock = [
 
 <template>
 
-  <!-- Ab Desktop fast so hoch wie das Fenster; unten bleiben ca. 9rem frei, damit der nächste Abschnitt hereinschaut -->
-  <section class="border-b border-navy/20 bg-paper bg-grid p-3 lg:flex lg:min-h-[min(calc(100svh-15rem),56rem)] lg:flex-col lg:p-5" aria-labelledby="hero-title">
-    <!-- Blattrahmen (doppelte Linie) mit Zonen am Rand -->
-    <div class="relative m-[5px] border border-navy/45 outline outline-offset-[5px] outline-navy/20 lg:flex lg:flex-1 lg:items-center">
+  <section
+    class="border-b border-navy/20 bg-paper bg-grid p-3 lg:flex lg:min-h-[min(calc(100svh-15rem),56rem)] lg:flex-col lg:p-5"
+    aria-labelledby="hero-title">
+    <div
+      class="relative m-[5px] border border-navy/45 outline outline-offset-[5px] outline-navy/20 lg:flex lg:flex-1 lg:items-center">
       <span aria-hidden="true"
         class="pointer-events-none absolute top-1.5 right-0 left-8 flex font-mono text-[0.65rem] text-navy/50">
         <i v-for="n in 6" :key="n" class="flex-1 text-center not-italic">{{ n }}</i>
@@ -31,39 +36,47 @@ const titleBlock = [
         <i v-for="z in ['A', 'B', 'C']" :key="z" class="flex flex-1 items-center not-italic">{{ z }}</i>
       </span>
 
-
       <div
-        class="mx-auto w-full max-w-[1600px] px-pad pt-11 pb-6 lg:flex lg:items-center lg:justify-between lg:gap-16 lg:pt-12 lg:pb-8">
-        <div class="max-w-[34rem] lg:w-[30rem] lg:shrink-0">
-          <h1 id="hero-title"
-            class="mb-[0.4em] text-[clamp(1.9rem,5vw,3rem)] leading-tight font-semibold tracking-[-0.01em] text-balance">
-            CNC-Drehen <span class="whitespace-nowrap">und -Fräsen</span> in&nbsp;Neuried
-          </h1>
-          <p class="mb-7 max-w-[30rem] text-[clamp(1rem,2.2vw,1.2rem)]">
-            Dreh- und Frästeile aus Metall nach Ihrer Zeichnung.
-            Inhabergeführt von Mirco Schüssele.
-          </p>
-          <div class="flex flex-wrap gap-3">
+        class="mx-auto w-full max-w-wide px-pad pt-11 pb-6 lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-16 lg:pt-12 lg:pb-8 xl:gap-20">
+        <div class="max-w-[38rem] lg:pt-[8%]">
+          <div>
+            <h1 id="hero-title"
+              class="mb-[0.4em] text-[clamp(2rem,4.6vw,4rem)] leading-[1.1] font-bold tracking-[-0.01em] text-balance">
+              CNC-Drehen <span class="whitespace-nowrap">und -Fräsen</span> in&nbsp;Neuried
+            </h1>
+            <p class="mb-8 max-w-[38rem] text-[clamp(1rem,1.6vw,1.25rem)]">
+              Dreh- und Frästeile aus Metall nach Ihrer Zeichnung.
+              Inhabergeführt von Mirco Schüssele.
+            </p>
             <RouterLink to="/anfrage"
-              class="inline-flex min-h-[2.9rem] items-center justify-center border border-navy bg-navy px-5 py-2.5 text-[0.95rem] font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">Zum
+              class="inline-flex min-h-[3rem] items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">Zum
               Anfrageformular</RouterLink>
-            <a href="mailto:info@schuessele-praezision.de?subject=Anfrage"
-              class="inline-flex min-h-[2.9rem] items-center justify-center border border-navy bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-navy no-underline transition-colors hover:bg-navy hover:text-white">Zeichnung
-              per E-Mail</a>
           </div>
+
+          <dl class="mt-10 grid max-w-[38rem] border-t border-navy/40 font-mono text-sm sm:grid-cols-3">
+            <div v-for="(f, i) in facts" :key="f.label"
+              class="flex items-baseline gap-3 border-b border-navy/15 py-2 sm:block sm:border-b-0 sm:pt-3 sm:pr-3 sm:pb-0"
+              :class="i > 0 && 'sm:border-l sm:border-navy/20 sm:pl-3'">
+              <dt class="w-28 shrink-0 text-xs text-navy/60 sm:mb-1 sm:w-auto">{{ f.label }}</dt>
+              <dd>
+                <PlaceholderText>{{ f.value }}</PlaceholderText>
+              </dd>
+            </div>
+          </dl>
         </div>
 
-        <div class="mt-14 flex flex-col lg:mt-0 lg:w-[56%] lg:max-w-[980px] 2xl:w-[62%]">
+        <div class="mt-14 flex flex-col justify-center lg:mt-0">
           <MillingMachine class="mb-2 h-auto w-full" />
 
-          <dl class="ml-auto grid w-full max-w-[340px] grid-cols-2 border border-navy bg-white font-mono text-[0.7rem]">
-            <div class="col-span-2 px-2 py-1">
-              <dt class="text-[0.6rem] tracking-[0.08em] uppercase opacity-60">Benennung</dt>
+          <dl
+            class="ml-auto grid w-full max-w-[380px] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8rem] text-navy">
+            <div class="col-span-2 px-3 py-1.5">
+              <dt class="text-[0.68rem] tracking-[0.06em] uppercase opacity-60">Benennung</dt>
               <dd>Universal-Fräsmaschine</dd>
             </div>
-            <div v-for="(f, i) in titleBlock" :key="f.label" class="border-t border-navy px-2 py-1"
+            <div v-for="(f, i) in titleBlock" :key="f.label" class="border-t border-navy px-3 py-1.5"
               :class="i === 0 && 'border-r'">
-              <dt class="text-[0.6rem] tracking-[0.08em] uppercase opacity-60">{{ f.label }}</dt>
+              <dt class="text-[0.68rem] tracking-[0.06em] uppercase opacity-60">{{ f.label }}</dt>
               <dd class="whitespace-nowrap">{{ f.value }}</dd>
             </div>
           </dl>
@@ -72,110 +85,147 @@ const titleBlock = [
     </div>
   </section>
 
-
-  <section id="leistungen" class="mx-auto max-w-wrap px-pad py-14 md:pt-14 md:pb-16" aria-labelledby="leistungen-title">
-    <header class="mb-10 max-w-[640px]">
-      <SectionTitle id="leistungen-title">Was wir machen</SectionTitle>
-      <p>
-        Wir fertigen Teile aus Metall auf CNC-Dreh- und Fräsmaschinen. Sie schicken die
-        Zeichnung, wir sagen Ihnen, ob und wann wir es machen können.
-      </p>
-    </header>
-
-    <div class="overflow-x-auto">
-      <table class="w-full min-w-[560px] border-collapse border border-navy">
-        <caption class="sr-only">Leistungen von Schüssele Präzision</caption>
-        <thead class="bg-paper font-mono text-xs tracking-[0.08em] uppercase">
-          <tr class="border-b border-navy text-left">
-            <th scope="col" class="p-4 font-normal">Verfahren</th>
-            <th scope="col" class="p-4 font-normal">Typische Teile</th>
-            <th scope="col" class="p-4 font-normal">Arbeitsbereich</th>
-          </tr>
-        </thead>
-        <tbody class="align-top [&_td]:p-4 [&_th]:p-4 [&_tr]:border-b [&_tr]:border-navy/20">
-          <tr>
-            <th scope="row" class="w-[22%] text-left font-semibold">Drehen</th>
-            <td>Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.</td>
-            <td class="font-mono text-sm whitespace-nowrap">
-              Ø max. <PlaceholderText>Platzhalter</PlaceholderText> mm<br />
-              Länge max. <PlaceholderText>Platzhalter</PlaceholderText> mm
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-left font-semibold">Fräsen</th>
-            <td>Platten, Halter, Gehäuse, Taschen und Bohrbilder.</td>
-            <td class="font-mono text-sm whitespace-nowrap">
-              X / Y / Z <PlaceholderText>Platzhalter</PlaceholderText> mm<br />
-              Achsen: <PlaceholderText>Platzhalter</PlaceholderText>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-left font-semibold">Metall&shy;bearbeitung</th>
-            <td>
-              <PlaceholderText>Platzhalter: z. B. Sägen, Bohren, Gewinde schneiden – beim Kunden erfragen
-              </PlaceholderText>
-            </td>
-            <td class="font-mono text-sm">–</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="mt-12 grid gap-8 md:grid-cols-3">
-      <div>
-        <h3 class="mb-1.5 text-[1.05rem] font-semibold">Werkstoffe</h3>
-        <p>
-          <PlaceholderText>Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff</PlaceholderText>
+  <section id="leistungen" class="border-b border-navy/15 bg-paper" aria-labelledby="leistungen-title">
+    <div class="mx-auto max-w-wide px-pad py-16 md:py-24">
+      <header class="mb-12 max-w-[46rem] lg:mb-14">
+        <SectionTitle id="leistungen-title" class="mb-0">Leistungen</SectionTitle>
+        <p class="mt-5 max-w-[40rem] text-lg">
+          Wir fertigen Teile aus Metall auf CNC-Dreh- und Fräsmaschinen. Sie schicken die
+          Zeichnung, wir sagen Ihnen, ob und wann wir es machen können.
         </p>
+      </header>
+
+      <div
+        class="grid divide-y divide-navy/25 border-y border-navy md:grid-cols-3 md:grid-rows-[auto_auto_1fr_auto] md:divide-x md:divide-y-0">
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:pr-10">
+          <PartSketch type="welle" class="mb-8 block h-36 w-full max-w-[300px]" />
+          <h3 class="mb-2 text-2xl font-semibold">Drehen</h3>
+          <p class="mb-6">Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.</p>
+          <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+            <dt class="text-navy/60">Ø max.</dt>
+            <dd>
+              <PlaceholderText>Platzhalter</PlaceholderText> mm
+            </dd>
+            <dt class="text-navy/60">Länge max.</dt>
+            <dd>
+              <PlaceholderText>Platzhalter</PlaceholderText> mm
+            </dd>
+          </dl>
+        </article>
+
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:px-10">
+          <PartSketch type="fraesteil" class="mb-8 block h-36 w-full max-w-[300px]" />
+          <h3 class="mb-2 text-2xl font-semibold">Fräsen</h3>
+          <p class="mb-6">Platten, Halter, Gehäuse, Taschen und Bohrbilder.</p>
+          <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+            <dt class="text-navy/60">X / Y / Z</dt>
+            <dd>
+              <PlaceholderText>Platzhalter</PlaceholderText> mm
+            </dd>
+            <dt class="text-navy/60">Achsen</dt>
+            <dd>
+              <PlaceholderText>Platzhalter</PlaceholderText>
+            </dd>
+          </dl>
+        </article>
+
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:pl-10">
+          <PartSketch type="winkel" class="mb-8 block h-36 w-full max-w-[300px]" />
+          <h3 class="mb-2 text-2xl font-semibold">Metall&shy;bearbeitung</h3>
+          <p class="mb-6">
+            <PlaceholderText>Platzhalter: z. B. Sägen, Bohren, Gewinde schneiden – beim Kunden erfragen
+            </PlaceholderText>
+          </p>
+          <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+            <dt class="text-navy/60">Bearbeitung</dt>
+            <dd>
+              <PlaceholderText>Platzhalter</PlaceholderText>
+            </dd>
+          </dl>
+        </article>
       </div>
-      <div>
-        <h3 class="mb-1.5 text-[1.05rem] font-semibold">Stückzahlen</h3>
-        <p>
-          <PlaceholderText>Platzhalter: z. B. ab 1 Stück bis … Stück</PlaceholderText>
-        </p>
-      </div>
-      <div>
-        <h3 class="mb-1.5 text-[1.05rem] font-semibold">Was wir nicht machen</h3>
-        <p>
-          <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Schweißen, Beschichten</PlaceholderText>
-        </p>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-3 md:gap-0">
+        <div class="md:pr-10">
+          <h3 class="mb-1.5 text-lg font-semibold">Werkstoffe</h3>
+          <p>
+            <PlaceholderText>Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff</PlaceholderText>
+          </p>
+        </div>
+        <div class="md:px-10">
+          <h3 class="mb-1.5 text-lg font-semibold">Stückzahlen</h3>
+          <p>
+            <PlaceholderText>Platzhalter: z. B. ab 1 Stück bis … Stück</PlaceholderText>
+          </p>
+        </div>
+        <div class="md:pl-10">
+          <h3 class="mb-1.5 text-lg font-semibold">Was wir nicht machen</h3>
+          <p>
+            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Schweißen, Beschichten
+            </PlaceholderText>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Kontakt -->
-  <section id="kontakt" class="mx-auto max-w-wrap border-t border-navy/15 px-pad py-14 md:pt-16 md:pb-24" aria-labelledby="kontakt-title">
-    <SectionTitle id="kontakt-title" class="mb-10">Kontakt</SectionTitle>
+  <section id="kontakt" class="mx-auto max-w-wide px-pad py-16 md:py-24" aria-labelledby="kontakt-title">
+    <div class="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-20">
+      <div>
+        <SectionTitle id="kontakt-title" class="mb-0">Kontakt</SectionTitle>
+        <p class="mt-5 mb-10 max-w-[32rem] text-lg">Am schnellsten geht es telefonisch. Zeichnungen gerne per E-Mail.</p>
 
-    <div class="grid gap-8 nav:grid-cols-[1fr_1.4fr] nav:gap-16">
-      <address class="space-y-4 not-italic">
-        <p>
-          <strong>Schüssele Präzision</strong><br />
-          Mirco Schüssele<br />
-          Vogesenstraße 1<br />
-          77743 Neuried
-        </p>
-        <p class="flex flex-col gap-1.5 font-mono">
-          <a href="tel:+4917622759201" class="text-2xl text-navy">0176 22 75 92 01</a>
-          <a href="mailto:info@schuessele-praezision.de">info@schuessele-praezision.de</a>
-        </p>
-        <p>Erreichbar: <PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText>
-        </p>
-      </address>
-
-      <div class="relative aspect-[4/3] border border-navy bg-paper">
-        <iframe v-if="mapLoaded" :src="mapSrc" title="Karte: Vogesenstraße 1, 77743 Neuried" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade" class="absolute inset-0 size-full border-0" />
-        <div v-else class="absolute inset-0 flex flex-col items-start justify-center gap-4 p-6 text-[0.9rem]">
-          <p>
-            Die Karte wird von Google Maps geladen. Dabei werden Daten an Google übertragen.
-            Mehr dazu in der <RouterLink to="/datenschutz">Datenschutzerklärung</RouterLink>.
-          </p>
-          <button type="button"
-            class="inline-flex min-h-[2.9rem] cursor-pointer items-center justify-center border border-navy bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
-            @click="mapLoaded = true">Karte laden</button>
-        </div>
+        <address class="not-italic">
+          <dl class="border-t border-navy">
+            <div class="grid grid-cols-[8.5rem_1fr] items-center gap-4 border-b border-navy/20 py-4">
+              <dt class="font-mono text-xs text-navy/60">Ansprechpartner</dt>
+              <dd class="flex items-center gap-3">
+                <span class="relative size-12 shrink-0 overflow-hidden rounded-full border border-navy/60 bg-[#e9edf1]">
+                  <span class="absolute inset-0 flex items-center justify-center font-mono text-[0.55rem] text-teal-dark">[Foto]</span>
+                </span>
+                <span class="font-semibold">Mirco Schüssele</span>
+              </dd>
+            </div>
+            <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+              <dt class="font-mono text-xs text-navy/60">Telefon</dt>
+              <dd><a href="tel:+4917622759201" class="font-mono text-2xl text-navy">0176 22 75 92 01</a></dd>
+            </div>
+            <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+              <dt class="font-mono text-xs text-navy/60">E-Mail</dt>
+              <dd><a href="mailto:info@schuessele-praezision.de" class="font-mono break-all">info@schuessele-praezision.de</a></dd>
+            </div>
+            <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+              <dt class="font-mono text-xs text-navy/60">Adresse</dt>
+              <dd>Vogesenstraße 1<br />77743 Neuried</dd>
+            </div>
+            <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy py-4">
+              <dt class="font-mono text-xs text-navy/60">Erreichbar</dt>
+              <dd><PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText></dd>
+            </div>
+          </dl>
+        </address>
       </div>
+
+      <figure>
+        <AerialView />
+        <figcaption class="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+          <a :href="routeGoogle" target="_blank" rel="noopener"
+            class="inline-flex min-h-[2.9rem] items-center justify-center gap-2 border border-navy bg-navy px-5 py-2.5 text-[0.95rem] font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="size-4">
+              <path
+                d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z M12 12.2a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+            Route planen
+          </a>
+          <span class="font-mono text-xs text-navy/60">
+            Luftbild: <a href="https://www.lgl-bw.de" target="_blank" rel="noopener" class="text-navy/60">LGL-BW</a>
+            (2026),
+            <a href="https://www.govdata.de/dl-de/by-2-0" target="_blank" rel="noopener"
+              class="text-navy/60">Datenlizenz Deutschland – Namensnennung – Version 2.0</a>
+          </span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 </template>

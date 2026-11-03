@@ -1,12 +1,6 @@
 <script setup lang="ts">
-/**
- * Zeichnung einer CNC-Universal-Fräsmaschine.
- * Das 3D-Modell und die Projektion stehen in src/drawing/machine3d.ts,
- * hier werden nur die fertigen Pfade ausgegeben und animiert.
- */
 import { renderMachine, type RenderItem } from '../drawing/machine3d'
 
-// Szene wird einmal berechnet (rein statisch, keine Laufzeit-Animation per JS)
 const scene = renderMachine()
 
 const style = (it: RenderItem) => ({
@@ -58,7 +52,6 @@ const style = (it: RenderItem) => ({
 </template>
 
 <style scoped>
-/* Größe kommt per Tailwind-Klasse von außen */
 .machine {
   overflow: visible;
 }
@@ -69,7 +62,6 @@ path {
   stroke-linecap: round;
 }
 
-/* Kante zeichnet sich, danach wird die Fläche gefüllt */
 .draw {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
@@ -89,7 +81,6 @@ path {
 .line--glare {
   opacity: 0.6;
 }
-/* verdeckte Kanten: gestrichelt, werden nach dem Zeichnen eingeblendet */
 .edge-hidden {
   stroke-dasharray: 3 2.5;
   stroke-opacity: 0.5;
@@ -97,7 +88,6 @@ path {
   opacity: 0;
   animation: fade 0.8s ease var(--delay) forwards;
 }
-/* Konstruktionslinien */
 .construct {
   fill: none;
   stroke: var(--color-navy);
