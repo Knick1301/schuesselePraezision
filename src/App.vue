@@ -1,11 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SiteHeader from './components/SiteHeader.vue'
+import SiteFooter from './components/SiteFooter.vue'
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <a
+    href="#inhalt"
+    class="absolute -top-12 left-4 z-[100] bg-navy px-4 py-2 text-white no-underline focus:top-4"
+  >Zum Inhalt springen</a>
+  <SiteHeader />
+  <main id="inhalt">
+    <RouterView />
+  </main>
+  <SiteFooter />
 </template>
-
-<style scoped></style>
