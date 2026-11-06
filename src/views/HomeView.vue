@@ -133,13 +133,14 @@ const titleBlock = [
           <PartSketch type="winkel" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Metall&shy;bearbeitung</h3>
           <p class="mb-6">
-            <PlaceholderText>Platzhalter: z. B. Sägen, Bohren, Gewinde schneiden – beim Kunden erfragen</PlaceholderText>
+            Bohren, Sägen, Schweißen. Reparaturen von Lagersitzen, Wellen und mehr.
+            Sonderteile auch nach Muster.
           </p>
           <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
-            <dt class="text-navy/75">Bearbeitung</dt>
-            <dd>
-              <PlaceholderText>Platzhalter</PlaceholderText>
-            </dd>
+            <dt class="text-navy/75">Verfahren</dt>
+            <dd>Bohren · Sägen · Schweißen</dd>
+            <dt class="text-navy/75">Außerdem</dt>
+            <dd>Reparatur, Sonderteile</dd>
           </dl>
         </article>
       </div>
@@ -154,13 +155,14 @@ const titleBlock = [
         <div class="lg:px-10">
           <h3 class="mb-1.5 text-lg font-semibold">Stückzahlen</h3>
           <p>
-            <PlaceholderText>Platzhalter: z. B. ab 1 Stück bis … Stück</PlaceholderText>
+            Ab 1 Stück – auch individuelle Lösungen.
+            <PlaceholderText>Platzhalter: bis … Stück</PlaceholderText>
           </p>
         </div>
         <div class="lg:pl-10">
           <h3 class="mb-1.5 text-lg font-semibold">Was wir nicht machen</h3>
           <p>
-            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Schweißen, Beschichten</PlaceholderText>
+            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Beschichten</PlaceholderText>
           </p>
         </div>
       </div>
@@ -183,6 +185,10 @@ const titleBlock = [
                 </span>
                 <span class="font-semibold">Mirco Schüssele</span>
               </dd>
+            </div>
+            <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+              <dt class="font-mono text-[0.8125rem] text-navy/75">Mitarbeiter</dt>
+              <dd>Jannik Enderle</dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Telefon</dt>

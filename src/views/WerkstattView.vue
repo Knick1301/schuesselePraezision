@@ -4,9 +4,9 @@ import PlaceholderText from '../components/PlaceholderText.vue'
 import PhotoPlaceholder from '../components/PhotoPlaceholder.vue'
 
 const maschinen = [
-  { verfahren: 'Fräsen' },
-  { verfahren: 'Drehen' },
-  { verfahren: 'Messen / Prüfen' },
+  { verfahren: 'Fräsen', name: 'Hermle UWF 1202 S' },
+  { verfahren: 'Drehen', name: '' },
+  { verfahren: 'Messen / Prüfen', name: '' },
 ]
 </script>
 
@@ -53,7 +53,7 @@ const maschinen = [
           <tbody class="align-top [&_td]:p-4 [&_tr]:border-b [&_tr]:border-navy/20">
             <tr v-for="(m, i) in maschinen" :key="i">
               <td class="w-16 font-mono text-sm">{{ i + 1 }}</td>
-              <td><PlaceholderText>Platzhalter: Hersteller / Typ</PlaceholderText></td>
+              <td><template v-if="m.name">{{ m.name }}</template><PlaceholderText v-else>Platzhalter: Hersteller / Typ</PlaceholderText></td>
               <td>{{ m.verfahren }}</td>
               <td class="font-mono text-sm"><PlaceholderText>Platzhalter</PlaceholderText></td>
             </tr>

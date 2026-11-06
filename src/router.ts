@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/HomeView.vue'
+import { VARIANTEN } from './variante2/stil'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,13 +8,27 @@ const router = createRouter({
     { path: '/', name: 'home', component: HomeView, meta: { title: '' } },
     { path: '/werkstatt', name: 'werkstatt', component: () => import('./views/WerkstattView.vue'), meta: { title: 'Werkstatt' } },
     { path: '/anfrage', name: 'anfrage', component: () => import('./views/AnfrageView.vue'), meta: { title: 'Anfrage' } },
+    ...VARIANTEN.map(({ basis, kopf }) => ({
+      path: basis,
+      component: () => import('./variante2/V2Layout.vue'),
+      meta: { eigenesLayout: true, kopf },
+      children: [
+        { path: '', component: () => import('./variante2/V2Start.vue'), meta: { title: '', start: true } },
+        { path: 'werkstatt', component: () => import('./variante2/V2Werkstatt.vue'), meta: { title: 'Werkstatt' } },
+        { path: 'anfrage', component: () => import('./variante2/V2Anfrage.vue'), meta: { title: 'Anfrage' } },
+        { path: 'impressum', component: () => import('./variante2/V2Impressum.vue'), meta: { title: 'Impressum' } },
+        { path: 'datenschutz', component: () => import('./variante2/V2Datenschutz.vue'), meta: { title: 'Datenschutz' } },
+        { path: ':pathMatch(.*)*', redirect: basis },
+      ],
+    })),
+    { path: '/v2/:rest(.*)*', redirect: (to) => `/v2b/${(to.params.rest as string[] | undefined)?.join('/') ?? ''}` },
     { path: '/impressum', name: 'impressum', component: () => import('./views/ImpressumView.vue'), meta: { title: 'Impressum' } },
     { path: '/datenschutz', name: 'datenschutz', component: () => import('./views/DatenschutzView.vue'), meta: { title: 'Datenschutz' } },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved
-    if (to.hash) return { el: to.hash, top: 128 }
+    if (to.hash) return { el: to.hash, top: to.meta.eigenesLayout ? 0 : 128 }
     return { top: 0 }
   },
 })
