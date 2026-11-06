@@ -57,7 +57,7 @@ const titleBlock = [
             <div v-for="(f, i) in facts" :key="f.label"
               class="flex items-baseline gap-3 border-b border-navy/15 py-2 sm:block sm:border-b-0 sm:pt-3 sm:pr-3 sm:pb-0"
               :class="i > 0 && 'sm:border-l sm:border-navy/20 sm:pl-3'">
-              <dt class="w-28 shrink-0 text-xs text-navy/60 sm:mb-1 sm:w-auto">{{ f.label }}</dt>
+              <dt class="w-28 shrink-0 text-[0.8125rem] text-navy/75 sm:mb-1 sm:w-auto">{{ f.label }}</dt>
               <dd>
                 <PlaceholderText>{{ f.value }}</PlaceholderText>
               </dd>
@@ -71,12 +71,12 @@ const titleBlock = [
           <dl
             class="ml-auto grid w-full max-w-[380px] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8rem] text-navy">
             <div class="col-span-2 px-3 py-1.5">
-              <dt class="text-[0.68rem] tracking-[0.06em] uppercase opacity-60">Benennung</dt>
-              <dd>Universal-Fräsmaschine</dd>
+              <dt class="text-[0.72rem] tracking-[0.06em] uppercase opacity-75">Benennung</dt>
+              <dd>CNC-Fräsmaschine</dd>
             </div>
             <div v-for="(f, i) in titleBlock" :key="f.label" class="border-t border-navy px-3 py-1.5"
               :class="i === 0 && 'border-r'">
-              <dt class="text-[0.68rem] tracking-[0.06em] uppercase opacity-60">{{ f.label }}</dt>
+              <dt class="text-[0.72rem] tracking-[0.06em] uppercase opacity-75">{{ f.label }}</dt>
               <dd class="whitespace-nowrap">{{ f.value }}</dd>
             </div>
           </dl>
@@ -96,48 +96,47 @@ const titleBlock = [
       </header>
 
       <div
-        class="grid divide-y divide-navy/25 border-y border-navy md:grid-cols-3 md:grid-rows-[auto_auto_1fr_auto] md:divide-x md:divide-y-0">
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:pr-10">
+        class="grid divide-y divide-navy/25 border-y border-navy lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr_auto] lg:divide-x lg:divide-y-0">
+        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:pr-10">
           <PartSketch type="welle" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Drehen</h3>
           <p class="mb-6">Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.</p>
           <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
-            <dt class="text-navy/60">Ø max.</dt>
+            <dt class="text-navy/75">Ø max.</dt>
             <dd>
               <PlaceholderText>Platzhalter</PlaceholderText> mm
             </dd>
-            <dt class="text-navy/60">Länge max.</dt>
+            <dt class="text-navy/75">Länge max.</dt>
             <dd>
               <PlaceholderText>Platzhalter</PlaceholderText> mm
             </dd>
           </dl>
         </article>
 
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:px-10">
+        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:px-10">
           <PartSketch type="fraesteil" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Fräsen</h3>
           <p class="mb-6">Platten, Halter, Gehäuse, Taschen und Bohrbilder.</p>
           <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
-            <dt class="text-navy/60">X / Y / Z</dt>
+            <dt class="text-navy/75">X / Y / Z</dt>
             <dd>
               <PlaceholderText>Platzhalter</PlaceholderText> mm
             </dd>
-            <dt class="text-navy/60">Achsen</dt>
+            <dt class="text-navy/75">Achsen</dt>
             <dd>
               <PlaceholderText>Platzhalter</PlaceholderText>
             </dd>
           </dl>
         </article>
 
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:pl-10">
+        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:pl-10">
           <PartSketch type="winkel" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Metall&shy;bearbeitung</h3>
           <p class="mb-6">
-            <PlaceholderText>Platzhalter: z. B. Sägen, Bohren, Gewinde schneiden – beim Kunden erfragen
-            </PlaceholderText>
+            <PlaceholderText>Platzhalter: z. B. Sägen, Bohren, Gewinde schneiden – beim Kunden erfragen</PlaceholderText>
           </p>
           <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
-            <dt class="text-navy/60">Bearbeitung</dt>
+            <dt class="text-navy/75">Bearbeitung</dt>
             <dd>
               <PlaceholderText>Platzhalter</PlaceholderText>
             </dd>
@@ -145,24 +144,23 @@ const titleBlock = [
         </article>
       </div>
 
-      <div class="mt-12 grid gap-8 md:grid-cols-3 md:gap-0">
-        <div class="md:pr-10">
+      <div class="mt-12 grid gap-8 lg:grid-cols-3 lg:gap-0">
+        <div class="lg:pr-10">
           <h3 class="mb-1.5 text-lg font-semibold">Werkstoffe</h3>
           <p>
             <PlaceholderText>Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff</PlaceholderText>
           </p>
         </div>
-        <div class="md:px-10">
+        <div class="lg:px-10">
           <h3 class="mb-1.5 text-lg font-semibold">Stückzahlen</h3>
           <p>
             <PlaceholderText>Platzhalter: z. B. ab 1 Stück bis … Stück</PlaceholderText>
           </p>
         </div>
-        <div class="md:pl-10">
+        <div class="lg:pl-10">
           <h3 class="mb-1.5 text-lg font-semibold">Was wir nicht machen</h3>
           <p>
-            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Schweißen, Beschichten
-            </PlaceholderText>
+            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Schweißen, Beschichten</PlaceholderText>
           </p>
         </div>
       </div>
@@ -178,7 +176,7 @@ const titleBlock = [
         <address class="not-italic">
           <dl class="border-t border-navy">
             <div class="grid grid-cols-[8.5rem_1fr] items-center gap-4 border-b border-navy/20 py-4">
-              <dt class="font-mono text-xs text-navy/60">Ansprechpartner</dt>
+              <dt class="font-mono text-[0.8125rem] text-navy/75">Ansprechpartner</dt>
               <dd class="flex items-center gap-3">
                 <span class="relative size-12 shrink-0 overflow-hidden rounded-full border border-navy/60 bg-[#e9edf1]">
                   <span class="absolute inset-0 flex items-center justify-center font-mono text-[0.55rem] text-teal-dark">[Foto]</span>
@@ -187,19 +185,19 @@ const titleBlock = [
               </dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
-              <dt class="font-mono text-xs text-navy/60">Telefon</dt>
+              <dt class="font-mono text-[0.8125rem] text-navy/75">Telefon</dt>
               <dd><a href="tel:+4917622759201" class="font-mono text-2xl text-navy">0176 22 75 92 01</a></dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
-              <dt class="font-mono text-xs text-navy/60">E-Mail</dt>
+              <dt class="font-mono text-[0.8125rem] text-navy/75">E-Mail</dt>
               <dd><a href="mailto:info@schuessele-praezision.de" class="font-mono break-all">info@schuessele-praezision.de</a></dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
-              <dt class="font-mono text-xs text-navy/60">Adresse</dt>
+              <dt class="font-mono text-[0.8125rem] text-navy/75">Adresse</dt>
               <dd>Vogesenstraße 1<br />77743 Neuried</dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy py-4">
-              <dt class="font-mono text-xs text-navy/60">Erreichbar</dt>
+              <dt class="font-mono text-[0.8125rem] text-navy/75">Erreichbar</dt>
               <dd><PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText></dd>
             </div>
           </dl>

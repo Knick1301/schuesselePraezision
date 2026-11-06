@@ -4,7 +4,7 @@ import { renderMachine, type RenderItem } from '../drawing/machine3d'
 const scene = renderMachine()
 
 const style = (it: RenderItem) => ({
-  '--delay': `${it.delay}s`,
+  '--delay': `${(it.delay * 0.68).toFixed(2)}s`,
   '--fo': String(it.fo),
   fill: it.fill,
   stroke: it.stroke,
@@ -100,7 +100,7 @@ path {
 .shadow {
   fill: var(--color-navy);
   opacity: 0;
-  animation: shadow 1.2s ease 2.6s forwards;
+  animation: shadow 1s ease 1.8s forwards;
 }
 .centerline {
   fill: none;
@@ -108,11 +108,11 @@ path {
   stroke-width: 0.7;
   stroke-dasharray: 12 3 2 3;
   opacity: 0;
-  animation: fade 0.8s ease 3.4s forwards;
+  animation: fade 0.8s ease 2.3s forwards;
 }
 
 .spindle {
-  animation: plunge 5s ease-in-out 4.5s infinite;
+  animation: plunge 5s ease-in-out 3.5s infinite;
 }
 
 @keyframes draw {
