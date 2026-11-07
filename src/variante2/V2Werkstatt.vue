@@ -6,13 +6,16 @@ import { fliess, useV2, wrap } from './stil'
 
 const { anfrage, kopf } = useV2()
 
+const bilder = import.meta.glob<string>('./fotos/*.jpg', { eager: true, import: 'default' })
+const bild = (name: string) => bilder[`./fotos/${name}.jpg`]
+
 const fotos = [
-  { label: 'CNC-Fräsmaschine, Arbeitsraum', gross: true },
-  { label: 'Drehteile aus der Fertigung' },
-  { label: 'Mirco Schüssele an der Maschine' },
-  { label: 'Messen und Prüfen' },
-  { label: 'Werkzeuge und Spannmittel' },
-  { label: 'Werkstatt von außen' },
+  { label: 'Hermle UWF 1202 S', datei: 'hermle', gross: true },
+  { label: 'Martin-Drehbank', datei: 'drehbank' },
+  { label: 'An der Fräsmaschine', datei: 'mitarbeiter' },
+  { label: 'Werkbank mit Messgerät', datei: 'werkbank' },
+  { label: 'Bohren in der Fräsmaschine', datei: 'bohren' },
+  { label: 'Säulenbohrmaschine', datei: 'bohrmaschine' },
 ]
 
 const schriftfeld = [
@@ -68,10 +71,10 @@ const maschinen = [
           v-for="f in fotos"
           :key="f.label"
           class="m-0 flex flex-col"
-          :class="f.gross ? 'h-72 md:col-span-2 md:row-span-2 md:h-auto' : 'h-56 md:h-auto'"
+          :class="f.gross ? 'h-72 md:col-span-2 md:row-span-2 md:h-auto' : 'h-72 md:h-auto'"
         >
-          <div class="flex flex-1 items-center justify-center bg-navy/[0.06] p-4 text-center">
-            <span class="bg-teal/10 px-2 py-1 text-[0.875rem] text-teal-dark">[Foto: {{ f.label }}]</span>
+          <div class="relative flex-1 overflow-hidden bg-navy/[0.06]">
+            <img :src="bild(f.datei)" :alt="f.label" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" />
           </div>
           <figcaption class="mt-2 text-[0.8125rem] text-navy/60">{{ f.label }}</figcaption>
         </figure>

@@ -52,6 +52,16 @@ const rahmen = [
   { titel: 'Was wir nicht machen', text: '', platzhalter: 'Platzhalter: beim Kunden erfragen, z. B. Großserien, Beschichten' },
 ]
 
+const bilder = import.meta.glob<string>('./fotos/*.jpg', { eager: true, import: 'default' })
+const arbeiten = [
+  { datei: 'platten', text: 'Gefräste Platten, Serie' },
+  { datei: 'flansche', text: 'Flansche mit Gewindebolzen' },
+  { datei: 'buchse', text: 'Bronzebuchse, innen gedreht' },
+  { datei: 'reparatur', text: 'Reparatur auf dem Frästisch' },
+  { datei: 'flansch', text: 'Flansch, gedreht und gebohrt' },
+  { datei: 'riemenscheibe', text: 'Riemenscheibe mit Nabe' },
+].map((a) => ({ ...a, src: bilder[`./fotos/${a.datei}.jpg`] }))
+
 const zeile = 'grid gap-1 border-b border-navy/15 py-5 sm:grid-cols-[10rem_1fr] sm:items-baseline sm:gap-6'
 const begriff = 'text-[0.875rem] text-navy/60'
 </script>
@@ -60,7 +70,7 @@ const begriff = 'text-[0.875rem] text-navy/60'
   <section class="relative isolate overflow-hidden bg-navy text-white" aria-labelledby="v2-titel">
     <img v-if="foto" :src="foto" alt=""
       class="absolute inset-0 -z-20 size-full scale-[1.02] object-cover object-[62%_50%] blur-[0.75px] lg:object-[50%_45%]" />
-    <div class="absolute inset-0 -z-10 bg-navy/[0.65]" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 bg-navy/[0.55]" aria-hidden="true"></div>
 
     <div :class="wrap"
       class="flex min-h-[max(34rem,92svh)] flex-col [text-shadow:0_1px_12px_rgb(20_39_58/0.85)] pt-3 pb-6 lg:min-h-[max(40rem,80svh)] lg:pt-[clamp(2rem,3.9vw,3.5rem)] lg:pb-[clamp(2rem,5vw,4.5rem)]">
@@ -184,6 +194,28 @@ const begriff = 'text-[0.875rem] text-navy/60'
           </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="arbeiten" class="border-t border-navy/15 bg-white" aria-labelledby="arbeiten-titel">
+    <div :class="wrap" class="pt-[clamp(3rem,5vw,4.5rem)] pb-[clamp(4rem,8vw,7.5rem)]">
+      <div class="grid gap-4 lg:grid-cols-[22.5rem_1fr] lg:items-baseline">
+        <h2 id="arbeiten-titel" class="m-0 text-[clamp(2.25rem,3.2vw,2.875rem)] leading-tight font-semibold tracking-[-0.03em]">Arbeiten</h2>
+        <p class="m-0 max-w-[40rem] text-[1.125rem] leading-snug text-navy/75 md:text-[1.1875rem]" :class="fliess">
+          Teile aus unserer Fertigung.
+        </p>
+      </div>
+
+      <ul class="m-0 mt-[clamp(2rem,3vw,2.5rem)] grid list-none grid-cols-2 gap-x-4 gap-y-6 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-8">
+        <li v-for="a in arbeiten" :key="a.datei">
+          <figure class="m-0">
+            <div class="aspect-[4/5] overflow-hidden bg-navy/[0.06]">
+              <img :src="a.src" :alt="a.text" loading="lazy" decoding="async" class="size-full object-cover transition-transform duration-500 hover:scale-[1.03]" />
+            </div>
+            <figcaption class="mt-2 text-[0.8125rem] leading-snug text-navy/70 md:text-[0.875rem]">{{ a.text }}</figcaption>
+          </figure>
+        </li>
+      </ul>
     </div>
   </section>
 
