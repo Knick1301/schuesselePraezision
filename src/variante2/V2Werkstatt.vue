@@ -36,8 +36,8 @@ const maschinen = [
 <template>
   <V2Blatt :zeilen="['A', 'B', 'C']">
     <section :class="wrap" class="pt-11 pb-[clamp(2.5rem,5vw,4rem)] lg:pt-14" aria-label="Werkstatt">
-      <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-        <div>
+      <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-0">
+        <div class="lg:col-start-1 lg:row-start-1">
           <h1 v-if="kopf === 'leiste'" class="m-0 mb-6 text-[clamp(2.5rem,5vw,4rem)] leading-none font-semibold">Werkstatt</h1>
           <p class="m-0 max-w-[34rem] text-[1.25rem] leading-snug text-navy/80 md:text-[1.375rem]" :class="fliess">
             So sieht es bei uns aus.
@@ -46,8 +46,9 @@ const maschinen = [
           <RouterLink :to="anfrage" class="mt-8 inline-flex min-h-12 items-center gap-2 bg-navy px-6 text-white no-underline transition-colors hover:bg-teal-dark">
             Zeichnung schicken <span aria-hidden="true">→</span>
           </RouterLink>
+        </div>
 
-          <dl class="m-0 mt-10 grid max-w-[30rem] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8125rem] text-navy lg:mt-14">
+        <dl class="order-3 m-0 grid w-full max-w-[30rem] lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-14 lg:self-start grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8125rem] text-navy">
             <div
               v-for="(f, i) in schriftfeld"
               :key="f.name"
@@ -58,8 +59,7 @@ const maschinen = [
               <dd class="m-0">{{ f.wert }}</dd>
             </div>
           </dl>
-        </div>
-        <MillingMachine class="mx-auto h-auto w-full max-w-[40rem] lg:mr-0" />
+        <MillingMachine class="order-2 mx-auto h-auto w-full max-w-[40rem] lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mr-0" />
       </div>
     </section>
   </V2Blatt>

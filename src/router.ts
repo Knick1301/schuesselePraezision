@@ -21,7 +21,7 @@ const router = createRouter({
         { path: ':pathMatch(.*)*', redirect: basis },
       ],
     })),
-    { path: '/v2/:rest(.*)*', redirect: (to) => `/v2b/${(to.params.rest as string[] | undefined)?.join('/') ?? ''}` },
+    { path: '/v2:x(a|b|c)/:rest(.*)*', redirect: (to) => `/v2/${(to.params.rest as string[] | undefined)?.join('/') ?? ''}` },
     { path: '/impressum', name: 'impressum', component: () => import('./views/ImpressumView.vue'), meta: { title: 'Impressum' } },
     { path: '/datenschutz', name: 'datenschutz', component: () => import('./views/DatenschutzView.vue'), meta: { title: 'Datenschutz' } },
     { path: '/:pathMatch(.*)*', redirect: '/' },

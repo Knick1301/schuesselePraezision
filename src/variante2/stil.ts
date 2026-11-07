@@ -10,16 +10,12 @@ export const MAIL = 'info@schuessele-praezision.de'
 
 export type KopfStil = 'leiste' | 'navy' | 'weiss'
 
-export const VARIANTEN: { basis: string; kopf: KopfStil }[] = [
-  { basis: '/v2a', kopf: 'leiste' },
-  { basis: '/v2b', kopf: 'navy' },
-  { basis: '/v2c', kopf: 'weiss' },
-]
+export const VARIANTEN: { basis: string; kopf: KopfStil }[] = [{ basis: '/v2', kopf: 'leiste' }]
 
 export function useV2() {
   const route = useRoute()
-  const basis = computed(() => route.matched[0]?.path ?? '/v2b')
-  const kopf = computed(() => (route.meta.kopf as KopfStil | undefined) ?? 'navy')
+  const basis = computed(() => route.matched[0]?.path ?? '/v2')
+  const kopf = computed(() => (route.meta.kopf as KopfStil | undefined) ?? 'leiste')
   const pfad = (p = '') => basis.value + p
   const nav = computed(() => [
     { label: 'Leistungen', nr: '01', to: { path: basis.value, hash: '#leistungen' } },

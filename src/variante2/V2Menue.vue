@@ -31,9 +31,9 @@ onBeforeUnmount(() => {
     :aria-expanded="offen"
     @click="offen = true"
   >
-    Menü
-    <span class="flex w-5 flex-col gap-[5px]" aria-hidden="true">
-      <span class="h-px" :class="hell ? 'bg-navy' : 'bg-white'"></span><span class="h-px" :class="hell ? 'bg-navy' : 'bg-white'"></span>
+    <span class="sr-only">Menü</span>
+    <span class="flex w-6 flex-col gap-[6px]" aria-hidden="true">
+      <span v-for="n in 3" :key="n" class="h-[2px]" :class="hell ? 'bg-navy' : 'bg-white'"></span>
     </span>
   </button>
 
@@ -59,10 +59,10 @@ onBeforeUnmount(() => {
             class="-mr-3 flex min-h-12 cursor-pointer items-center gap-2.5 px-3 text-[1rem] text-white"
             @click="offen = false"
           >
-            Schließen
-            <span class="relative block size-4" aria-hidden="true">
-              <span class="absolute top-1/2 left-0 h-px w-full rotate-45 bg-white"></span>
-              <span class="absolute top-1/2 left-0 h-px w-full -rotate-45 bg-white"></span>
+            <span class="sr-only">Menü schließen</span>
+            <span class="relative block size-6" aria-hidden="true">
+              <span class="absolute top-1/2 left-0 h-[2px] w-full rotate-45 bg-white"></span>
+              <span class="absolute top-1/2 left-0 h-[2px] w-full -rotate-45 bg-white"></span>
             </span>
           </button>
         </div>
