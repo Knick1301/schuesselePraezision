@@ -24,7 +24,6 @@ const schriftfeld = [
   { name: 'Ort', wert: 'Neuried', breit: false },
   { name: 'Inhaber', wert: 'Mirco Schüssele', breit: false },
   { name: 'Mitarbeiter', wert: 'Jannik Enderle', breit: false },
-  { name: 'Fräsmaschine', wert: 'Hermle UWF 1202 S', breit: true },
 ]
 
 const maschinen = [
