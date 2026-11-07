@@ -15,6 +15,15 @@ const fotos = [
   { label: 'Werkstatt von außen' },
 ]
 
+const schriftfeld = [
+  { name: 'Benennung', wert: 'Werkstatt', breit: true },
+  { name: 'Betrieb', wert: 'Schüssele Präzision', breit: false },
+  { name: 'Ort', wert: 'Neuried', breit: false },
+  { name: 'Inhaber', wert: 'Mirco Schüssele', breit: false },
+  { name: 'Mitarbeiter', wert: 'Jannik Enderle', breit: false },
+  { name: 'Fräsmaschine', wert: 'Hermle UWF 1202 S', breit: true },
+]
+
 const maschinen = [
   { verfahren: 'Fräsen', name: 'Hermle UWF 1202 S' },
   { verfahren: 'Drehen', name: '' },
@@ -23,7 +32,7 @@ const maschinen = [
 </script>
 
 <template>
-  <V2Blatt :zeilen="['A', 'B', 'C', 'D', 'E']">
+  <V2Blatt :zeilen="['A', 'B', 'C']">
     <section :class="wrap" class="pt-11 pb-[clamp(2.5rem,5vw,4rem)] lg:pt-14" aria-label="Werkstatt">
       <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         <div>
@@ -35,25 +44,39 @@ const maschinen = [
           <RouterLink :to="anfrage" class="mt-8 inline-flex min-h-12 items-center gap-2 bg-navy px-6 text-white no-underline transition-colors hover:bg-teal-dark">
             Zeichnung schicken <span aria-hidden="true">→</span>
           </RouterLink>
+
+          <dl class="m-0 mt-10 grid max-w-[30rem] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8125rem] text-navy lg:mt-14">
+            <div
+              v-for="(f, i) in schriftfeld"
+              :key="f.name"
+              class="px-3 py-2"
+              :class="[f.breit ? 'col-span-2' : '', i > 0 ? 'border-t border-navy/70' : '', !f.breit && i % 2 === 1 ? 'border-r border-navy/70' : '']"
+            >
+              <dt class="text-[0.6875rem] text-navy/60">{{ f.name }}</dt>
+              <dd class="m-0">{{ f.wert }}</dd>
+            </div>
+          </dl>
         </div>
         <MillingMachine class="mx-auto h-auto w-full max-w-[40rem] lg:mr-0" />
       </div>
+    </section>
+  </V2Blatt>
 
-      <div class="mt-[clamp(2.5rem,5vw,4.5rem)] grid gap-5 md:grid-cols-3 md:grid-rows-[16rem_16rem_18rem]">
+  <section :class="wrap" class="pt-[clamp(2.5rem,5vw,4rem)]" aria-label="Fotos aus der Werkstatt">
+      <div class="grid gap-5 md:grid-cols-3 md:grid-rows-[16rem_16rem_18rem]">
         <figure
           v-for="f in fotos"
           :key="f.label"
           class="m-0 flex flex-col"
           :class="f.gross ? 'h-72 md:col-span-2 md:row-span-2 md:h-auto' : 'h-56 md:h-auto'"
         >
-          <div class="flex flex-1 items-center justify-center border border-navy/15 bg-white/80 p-4 text-center">
+          <div class="flex flex-1 items-center justify-center bg-navy/[0.06] p-4 text-center">
             <span class="bg-teal/10 px-2 py-1 text-[0.875rem] text-teal-dark">[Foto: {{ f.label }}]</span>
           </div>
           <figcaption class="mt-2 text-[0.8125rem] text-navy/60">{{ f.label }}</figcaption>
         </figure>
       </div>
-    </section>
-  </V2Blatt>
+  </section>
 
   <section class="bg-white" aria-labelledby="maschinen-titel">
     <div :class="wrap" class="pt-[clamp(3rem,5vw,4.5rem)] pb-[clamp(3rem,6vw,5rem)]">

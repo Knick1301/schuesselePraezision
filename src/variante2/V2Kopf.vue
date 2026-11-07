@@ -29,7 +29,7 @@ const hell = computed(() => kopf.value === 'weiss')
               <RouterLink :to="n.to" class="text-white no-underline hover:text-[#74d3de]" exact-active-class="!text-[#74d3de]">{{ n.label }}</RouterLink>
             </li>
             <li>
-              <RouterLink :to="anfrage" class="text-[#74d3de] no-underline hover:underline">Anfrage →</RouterLink>
+              <RouterLink :to="anfrage" class="text-white no-underline hover:text-[#74d3de]" exact-active-class="!text-[#74d3de]">Anfrage <span class="text-[1.25rem] leading-none" aria-hidden="true">→</span></RouterLink>
             </li>
             <li class="border-l border-white/30 pl-9">
               <a :href="TEL_LINK" class="text-white no-underline font-mono hover:underline">{{ TEL }}</a>
@@ -93,10 +93,11 @@ const hell = computed(() => kopf.value === 'weiss')
               :to="anfrage"
               class="flex items-center justify-between px-[1.875rem] no-underline transition-colors"
               :class="hell
-                ? 'py-3.5 text-[1.0625rem] text-teal-dark hover:bg-navy/[0.04]'
-                : 'py-2.5 text-[1rem] text-[#74d3de] hover:bg-white/10'"
+                ? 'py-3.5 text-[1.0625rem] text-navy hover:bg-navy/[0.04] hover:text-teal-dark'
+                : 'py-2.5 text-[1rem] text-white hover:bg-white/10 hover:text-[#74d3de]'"
+              :exact-active-class="hell ? '!text-teal-dark' : '!text-[#74d3de]'"
             >
-              <span>Anfrage</span><span aria-hidden="true">→</span>
+              <span>Anfrage</span><span class="text-[1.5rem] leading-none font-normal" aria-hidden="true">→</span>
             </RouterLink>
           </li>
         </ul>

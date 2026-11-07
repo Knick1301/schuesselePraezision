@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
-const props = defineProps<{ type: 'welle' | 'fraesteil' | 'winkel' }>()
+const props = defineProps<{ type: 'welle' | 'fraesteil' | 'winkel' | 'buchse' }>()
 
 const root = ref<SVGSVGElement>()
 const drawn = ref(false)
@@ -198,7 +198,56 @@ const winkel = (() => {
   return { main: [...base, ...holes, ...wallHoles], center: line([p(L - 16, -6, T), p(L - 16, B + 6, T)]), fills }
 })()
 
-const shape = computed(() => ({ welle, fraesteil, winkel })[props.type])
+const buchse = (() => {
+  const ox = 20
+  const oy = 30
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const ring = (x: number, r: number, a0 = 0, a1 = 360, n = 40, cy = 0, cz = 0): P[] =>
+    Array.from({ length: n + 1 }, (_, i) => {
+      const t = ((a0 + ((a1 - a0) * i) / n) * Math.PI) / 180
+      return p(x, cy + r * Math.cos(t), cz + r * Math.sin(t))
+    })
+  const bands: [number, number, Tone][] = [
+    [-45, 0, 'dark'],
+    [0, 40, 'mid'],
+    [40, 75, 'light'],
+    [75, 105, 'shine'],
+    [105, 135, 'light'],
+  ]
+  const zylinder = (x0: number, x1: number, r: number) => {
+    const body = hull([...ring(x0, r), ...ring(x1, r)])
+    const fills: Fill[] = [{ d: line(body, true), tone: 'mid' }]
+    for (const [b0, b1, tone] of bands) {
+      fills.push({ d: line([...ring(x1, r, b0, b1, 8), ...ring(x0, r, b0, b1, 8).reverse()], true), tone })
+    }
+    const cap = line(ring(x1, r), true)
+    fills.push({ d: cap, tone: 'mid' })
+    return { fills, edges: [line(body, true), cap] }
+  }
+  const flansch = zylinder(0, 9, 24)
+  const loecher = [45, 135, 225, 315].map((a) => {
+    const t = (a * Math.PI) / 180
+    return line(ring(9, 3, 0, 360, 24, 18.5 * Math.cos(t), 18.5 * Math.sin(t)), true)
+  })
+  for (const l of loecher) {
+    flansch.fills.push({ d: l, tone: 'hole' })
+    flansch.edges.push(l)
+  }
+  const nabe = zylinder(9, 40, 14)
+  const bohrung = line(ring(40, 8), true)
+  const fase = line(ring(40, 10.5), true)
+  nabe.fills.push({ d: fase, tone: 'light' }, { d: bohrung, tone: 'hole' })
+  nabe.edges.push(fase, bohrung)
+  const layers: Layer[] = [flansch, nabe]
+  return {
+    main: layers.flatMap((l) => l.edges),
+    center: line([p(-8, 0, 0), p(50, 0, 0)]),
+    fills: [] as Fill[],
+    layers,
+  }
+})()
+
+const shape = computed(() => ({ welle, fraesteil, winkel, buchse })[props.type])
 
 const viewBox = computed(() => {
   const nums = [shape.value.center, ...shape.value.main]

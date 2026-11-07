@@ -7,7 +7,7 @@ import { fliess, TEL, TEL_LINK, useV2, wrap } from './stil'
 
 const { nav, anfrage } = useV2()
 
-const fotos = import.meta.glob<string>('./hermine.{jpg,jpeg,png,webp}', { eager: true, import: 'default' })
+const fotos = import.meta.glob<string>('./hauptbild.{jpg,jpeg,png,webp}', { eager: true, import: 'default' })
 const foto = Object.values(fotos)[0]
 
 const ADRESSE = 'Vogesenstraße 1, 77743 Neuried'
@@ -40,7 +40,7 @@ const leistungen = [
   },
   {
     titel: 'Reparatur & Sonderteile',
-    skizze: 'welle' as const,
+    skizze: 'buchse' as const,
     text: 'Reparaturen von Lagersitzen, Wellen und mehr. Sonderteile auch nach Muster.',
     werte: [],
   },
@@ -59,11 +59,11 @@ const begriff = 'text-[0.875rem] text-navy/60'
 <template>
   <section class="relative isolate overflow-hidden bg-navy text-white" aria-labelledby="v2-titel">
     <img v-if="foto" :src="foto" alt=""
-      class="absolute inset-0 -z-20 size-full scale-[1.02] object-cover object-[62%_50%] blur-[0.75px] grayscale lg:object-[50%_45%]" />
-    <div class="absolute inset-0 -z-10 bg-navy/[0.7]" aria-hidden="true"></div>
+      class="absolute inset-0 -z-20 size-full scale-[1.02] object-cover object-[62%_50%] blur-[0.75px] lg:object-[50%_45%]" />
+    <div class="absolute inset-0 -z-10 bg-navy/[0.65]" aria-hidden="true"></div>
 
     <div :class="wrap"
-      class="flex min-h-[max(34rem,92svh)] flex-col pt-3 pb-6 lg:min-h-[max(40rem,80svh)] lg:pt-[clamp(2rem,3.9vw,3.5rem)] lg:pb-[clamp(2rem,5vw,4.5rem)]">
+      class="flex min-h-[max(34rem,92svh)] flex-col [text-shadow:0_1px_12px_rgb(20_39_58/0.85)] pt-3 pb-6 lg:min-h-[max(40rem,80svh)] lg:pt-[clamp(2rem,3.9vw,3.5rem)] lg:pb-[clamp(2rem,5vw,4.5rem)]">
       <div class="mb-6 flex items-center justify-between lg:hidden">
         <span class="text-[0.875rem] text-white/85">Neuried, seit <V2Platzhalter dunkel>Jahr</V2Platzhalter></span>
         <V2Menue />
@@ -73,14 +73,14 @@ const begriff = 'text-[0.875rem] text-navy/60'
         <div>
           <h1 id="v2-titel" class="m-0 font-sans font-normal">
             <span
-              class="block text-[16.2vw] leading-[0.9] tracking-[-0.045em] lg:text-[clamp(3.25rem,11.25vw,10.5rem)]">SCHÜSSELE</span>
+              class="block text-[15vw] leading-[0.9] font-normal tracking-[-0.04em] lg:text-[clamp(3.25rem,11vw,9.5rem)]">SCHÜSSELE</span>
             <span
-              class="mt-[0.35em] flex items-center gap-[0.35em] text-[5.35vw] leading-none font-normal tracking-[0.32em] text-[#74d3de] lg:text-[clamp(1.5rem,3.7vw,3.4rem)]">
+              class="mt-[0.4em] flex items-center gap-[0.35em] text-[5.35vw] leading-none font-medium tracking-[0.32em] text-[#74d3de] lg:text-[clamp(1.5rem,3.7vw,3.4rem)]">
               <span class="text-[0.3em] tracking-normal" aria-hidden="true">●</span>PRÄZISION<span
                 class="-ml-[0.3em] text-[0.3em] tracking-normal" aria-hidden="true">●</span>
             </span>
           </h1>
-          <p class="mt-6 hidden text-[0.95rem] font-medium lg:block">Neuried, seit <V2Platzhalter dunkel>Jahr
+          <p class="mt-8 hidden text-[0.95rem] font-medium lg:block">Neuried, seit <V2Platzhalter dunkel>Jahr
             </V2Platzhalter>
           </p>
         </div>
@@ -96,8 +96,8 @@ const begriff = 'text-[0.875rem] text-navy/60'
             </li>
             <li class="border-b-2 border-white/80">
               <RouterLink :to="anfrage"
-                class="flex items-center justify-between px-[1.875rem] py-3.5 text-[1.125rem] font-semibold text-[#74d3de] no-underline transition-colors hover:bg-white/10">
-                <span>Anfrage</span><span aria-hidden="true">→</span>
+                class="flex items-center justify-between px-[1.875rem] py-3.5 text-[1.125rem] font-semibold text-white no-underline transition-colors hover:bg-white/10 hover:text-[#74d3de]">
+                <span>Anfrage</span><span class="text-[1.5rem] leading-none font-normal" aria-hidden="true">→</span>
               </RouterLink>
             </li>
           </ul>
@@ -134,7 +134,7 @@ const begriff = 'text-[0.875rem] text-navy/60'
             <a :href="TEL_LINK" class="font-mono text-white no-underline hover:underline">{{ TEL }}</a>
           </p>
         </div>
-        <p class="m-0 text-[0.8125rem] text-white/80">Hermine – Hermle UWF 1202 S</p>
+        <p class="m-0 text-[0.8125rem] text-white/80">Martin-Drehbank</p>
       </div>
     </div>
   </section>

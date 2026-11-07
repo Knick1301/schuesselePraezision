@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
             <li class="border-b border-white/45">
               <RouterLink
                 :to="anfrage"
-                class="flex min-h-16 items-center justify-between text-[1.75rem] tracking-[-0.02em] text-[#74d3de] no-underline"
+                class="flex min-h-16 items-center justify-between text-[1.75rem] tracking-[-0.02em] text-white no-underline"
                 @click="offen = false"
               >
                 <span>Anfrage</span><span class="text-[1.25rem]" aria-hidden="true">→</span>
