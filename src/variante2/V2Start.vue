@@ -73,7 +73,7 @@ const begriff = 'text-[0.875rem] text-navy/60'
     <div class="absolute inset-0 -z-10 bg-navy/[0.55]" aria-hidden="true"></div>
 
     <div :class="wrap"
-      class="flex min-h-[max(34rem,92svh)] flex-col [text-shadow:0_1px_12px_rgb(20_39_58/0.85)] pt-3 pb-6 lg:min-h-[max(40rem,80svh)] lg:pt-[clamp(2rem,3.9vw,3.5rem)] lg:pb-[clamp(2rem,5vw,4.5rem)]">
+      class="flex min-h-[max(34rem,92svh)] flex-col [text-shadow:0_1px_12px_rgb(20_39_58/0.85)] pt-3 pb-6 lg:min-h-[max(40rem,90svh)] lg:pt-[clamp(2rem,3.9vw,3.5rem)] lg:pb-[clamp(2rem,5vw,4.5rem)]">
       <div class="mb-6 flex items-center justify-between lg:hidden">
         <span class="text-[0.875rem] text-white/85">Neuried, seit <V2Platzhalter dunkel>Jahr</V2Platzhalter></span>
         <V2Menue />
