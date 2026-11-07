@@ -3,7 +3,7 @@ import AerialView from '../components/AerialView.vue'
 import PartSketch from '../components/PartSketch.vue'
 import V2Menue from './V2Menue.vue'
 import V2Platzhalter from './V2Platzhalter.vue'
-import { fliess, TEL, TEL_LINK, useV2, wrap } from './stil'
+import { fliess, MAIL, TEL, TEL_LINK, useV2, wrap } from './stil'
 
 const { nav, anfrage } = useV2()
 
@@ -245,6 +245,14 @@ const begriff = 'text-[0.875rem] text-navy/60'
             <div :class="zeile">
               <dt :class="begriff">Mitarbeiter</dt>
               <dd class="m-0 text-[1.125rem]">Jannik Enderle</dd>
+            </div>
+            <div :class="zeile">
+              <dt :class="begriff">Telefon</dt>
+              <dd class="m-0"><a :href="TEL_LINK" class="font-mono text-[1.5rem] text-navy no-underline hover:underline">{{ TEL }}</a></dd>
+            </div>
+            <div :class="zeile">
+              <dt :class="begriff">E-Mail</dt>
+              <dd class="m-0"><a :href="`mailto:${MAIL}`" class="break-all text-teal-dark no-underline hover:underline">{{ MAIL }}</a></dd>
             </div>
             <div :class="zeile">
               <dt :class="begriff">Adresse</dt>

@@ -29,7 +29,7 @@ const hell = computed(() => kopf.value === 'weiss')
               <RouterLink :to="n.to" class="text-white no-underline hover:text-[#74d3de]" exact-active-class="!text-[#74d3de]">{{ n.label }}</RouterLink>
             </li>
             <li>
-              <RouterLink :to="anfrage" class="text-white no-underline hover:text-[#74d3de]" exact-active-class="!text-[#74d3de]">Anfrage <span class="text-[1.25rem] leading-none" aria-hidden="true">→</span></RouterLink>
+              <RouterLink :to="anfrage" class="text-white no-underline hover:text-[#74d3de]" exact-active-class="!text-[#74d3de]">Anfrage</RouterLink>
             </li>
             <li class="border-l border-white/30 pl-9">
               <a :href="TEL_LINK" class="text-white no-underline font-mono hover:underline">{{ TEL }}</a>
