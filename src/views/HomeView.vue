@@ -13,13 +13,19 @@ const arbeiten = [
   { datei: 'flansche', text: 'Spurplatten für Schmalspurschlepper als Dreh- und Frästeil' },
   { datei: 'buchse', text: 'Buchse aus RG7 mit Schmiernut' },
   { datei: 'reparatur', text: 'Lagersitz einer Vorderachse ausbuchsen' },
-  { datei: 'flansch', text: 'Spurplatte' },
+  { datei: 'welle', text: 'Welle nach Muster neu gefertigt, links das alte Teil' },
   { datei: 'riemenscheibe', text: 'Herstellen von Riemenscheibe passend auf Mehrkantverzahnung' },
 ].map((a) => ({ ...a, src: bilder[`../assets/fotos/${a.datei}.jpg`]! }))
 
 type Wert = { name: string; wert: string; offen?: boolean }
 
 const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad'; text: string; werte: Wert[] }[] = [
+  {
+    titel: 'Individuelle Lösungen',
+    skizze: 'zahnrad' as const,
+    text: 'Für Teile und Aufgaben, die in kein Raster passen – sprechen Sie uns an.',
+    werte: [{ name: 'Stückzahl', wert: 'ab 1' }],
+  },
   {
     titel: 'Drehen',
     skizze: 'welle' as const,
@@ -55,12 +61,6 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
     skizze: 'montage' as const,
     text: 'Einzelteile auf Wunsch zur fertigen Baugruppe montiert.',
     werte: [],
-  },
-  {
-    titel: 'Individuelle Lösungen',
-    skizze: 'zahnrad' as const,
-    text: 'Für Teile und Aufgaben, die in kein Raster passen – sprechen Sie uns an.',
-    werte: [{ name: 'Stückzahl', wert: 'ab 1' }],
   },
 ]
 

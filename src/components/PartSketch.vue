@@ -26,7 +26,7 @@ onMounted(() => {
 onBeforeUnmount(() => observer?.disconnect())
 
 type P = [number, number]
-type Tone = 'light' | 'shine' | 'mid' | 'dark' | 'hole'
+type Tone = 'light' | 'shine' | 'mid' | 'dark' | 'hole' | 'midk' | 'darkk'
 interface Fill {
   d: string
   tone: Tone
@@ -295,38 +295,58 @@ const montage = (() => {
 const zahnrad = (() => {
   const ox = 70
   const oy = 40
-  const H = 10
+  const H = 11
   const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
   const zaehne = 12
   const ra = 34
-  const ri = 28
+  const rf = 27
   const umriss: [number, number][] = []
+  const s = (Math.PI * 2) / zaehne
   for (let i = 0; i < zaehne; i++) {
-    const a = (i / zaehne) * Math.PI * 2
-    const s = (Math.PI * 2) / zaehne
+    const a = i * s
     for (const [t, r] of [
-      [0, ri],
-      [0.18, ra],
-      [0.5, ra],
-      [0.68, ri],
+      [0, rf],
+      [0.12, rf],
+      [0.3, ra],
+      [0.62, ra],
+      [0.8, rf],
     ] as [number, number][]) {
       umriss.push([r * Math.cos(a + t * s), r * Math.sin(a + t * s)])
     }
   }
+  const n = umriss.length
+  const seiten: { d: string; tone: Tone; tiefe: number; unten: string; kante: string; winkel: number }[] = []
+  for (let i = 0; i < n; i++) {
+    const [x0, y0] = umriss[i]!
+    const [x1, y1] = umriss[(i + 1) % n]!
+    const nx = y1 - y0
+    const ny = -(x1 - x0)
+    if (nx + ny <= 0) continue
+    const len = Math.hypot(nx, ny)
+    seiten.push({
+      d: line([p(x0, y0, H), p(x1, y1, H), p(x1, y1, 0), p(x0, y0, 0)], true),
+      tone: nx / len > ny / len ? 'darkk' : 'midk',
+      tiefe: x0 + y0 + x1 + y1,
+      unten: line([p(x0, y0, 0), p(x1, y1, 0)]),
+      kante: line([p(x0, y0, H), p(x0, y0, 0)]),
+      winkel: Math.atan2(ny, nx),
+    })
+  }
+  seiten.sort((a, b) => a.tiefe - b.tiefe)
   const oben = line(umriss.map(([x, y]) => p(x, y, H)), true)
-  const unten = line(umriss.map(([x, y]) => p(x, y, 0)), true)
-  const huelle = hull([...umriss.map(([x, y]) => p(x, y, H)), ...umriss.map(([x, y]) => p(x, y, 0))])
-  const bohrung = isoEllipse(0, 0, H, 9, ox, oy)
-  const nabe = isoEllipse(0, 0, H, 15, ox, oy)
+  const kreis = (r: number) => isoEllipse(0, 0, H, r, ox, oy)
+  const nut: P[] = [p(-2.5, -8.6, H), p(-2.5, -11, H), p(2.5, -11, H), p(2.5, -8.6, H)]
+  const bohrung = kreis(9)
+  const nabe = kreis(16)
   return {
-    main: [line(huelle, true), oben, nabe, bohrung],
+    main: [oben, nabe, bohrung, line(nut)],
     center: line([p(-44, 0, H), p(44, 0, H)]),
     fills: [
-      { d: line(huelle, true), tone: 'dark' as Tone },
-      { d: unten, tone: 'mid' as Tone },
+      ...seiten.map((f) => ({ d: f.d, tone: f.tone })),
       { d: [oben, bohrung + ' Z'].join(' '), tone: 'light' as Tone },
-      { d: nabe + ' Z', tone: 'shine' as Tone },
+      { d: nabe + ' Z ' + bohrung + ' Z', tone: 'shine' as Tone },
       { d: bohrung + ' Z', tone: 'hole' as Tone },
+      { d: line(nut, true), tone: 'hole' as Tone },
     ],
   }
 })()
@@ -411,6 +431,18 @@ const viewBox = computed(() => {
   fill: #ccd3da;
 }
 .tone-dark {
+  fill: #b0b9c3;
+}
+.tone-midk,
+.tone-darkk {
+  stroke: var(--color-navy) !important;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+.tone-midk {
+  fill: #ccd3da;
+}
+.tone-darkk {
   fill: #b0b9c3;
 }
 .tone-hole {
