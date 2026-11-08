@@ -5,6 +5,16 @@ import PlaceholderText from '../components/PlaceholderText.vue'
 import AerialView from '../components/AerialView.vue'
 import PartSketch from '../components/PartSketch.vue'
 
+const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
+const arbeiten = [
+  { datei: 'platten', text: 'Gefräste Platten, Serie' },
+  { datei: 'flansche', text: 'Flansche mit Gewindebolzen' },
+  { datei: 'buchse', text: 'Bronzebuchse, innen gedreht' },
+  { datei: 'reparatur', text: 'Reparatur auf dem Frästisch' },
+  { datei: 'flansch', text: 'Flansch, gedreht und gebohrt' },
+  { datei: 'riemenscheibe', text: 'Riemenscheibe mit Nabe' },
+].map((a) => ({ ...a, src: bilder[`../assets/fotos/${a.datei}.jpg`] }))
+
 const ADRESSE = 'Vogesenstraße 1, 77743 Neuried'
 const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADRESSE)}`
 
@@ -96,8 +106,8 @@ const titleBlock = [
       </header>
 
       <div
-        class="grid divide-y divide-navy/25 border-y border-navy lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr_auto] lg:divide-x lg:divide-y-0">
-        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:pr-10">
+        class="grid divide-y divide-navy/25 border-y border-navy md:grid-cols-2 md:grid-rows-[auto_auto_1fr_auto] md:divide-y-0 xl:grid-cols-4 xl:divide-x">
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="welle" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Drehen</h3>
           <p class="mb-6">Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.</p>
@@ -113,7 +123,7 @@ const titleBlock = [
           </dl>
         </article>
 
-        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:px-10">
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="fraesteil" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Fräsen</h3>
           <p class="mb-6">Platten, Halter, Gehäuse, Taschen und Bohrbilder.</p>
@@ -129,18 +139,23 @@ const titleBlock = [
           </dl>
         </article>
 
-        <article class="py-10 lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:pl-10">
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="winkel" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Metall&shy;bearbeitung</h3>
-          <p class="mb-6">
-            Bohren, Sägen, Schweißen. Reparaturen von Lagersitzen, Wellen und mehr.
-            Sonderteile auch nach Muster.
-          </p>
+          <p class="mb-6">Bohren, Sägen, Schweißen.</p>
           <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
             <dt class="text-navy/75">Verfahren</dt>
             <dd>Bohren · Sägen · Schweißen</dd>
-            <dt class="text-navy/75">Außerdem</dt>
-            <dd>Reparatur, Sonderteile</dd>
+          </dl>
+        </article>
+
+        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
+          <PartSketch type="buchse" class="mb-8 block h-36 w-full max-w-[300px]" />
+          <h3 class="mb-2 text-2xl font-semibold">Reparatur &amp; Sonder&shy;teile</h3>
+          <p class="mb-6">Reparaturen von Lagersitzen, Wellen und mehr. Sonderteile auch nach Muster.</p>
+          <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+            <dt class="text-navy/75">Stückzahl</dt>
+            <dd>ab 1</dd>
           </dl>
         </article>
       </div>
@@ -166,6 +181,26 @@ const titleBlock = [
           </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="arbeiten" class="border-b border-navy/15" aria-labelledby="arbeiten-title">
+    <div class="mx-auto max-w-wide px-pad py-16 md:py-24">
+      <header class="mb-12 max-w-[46rem] lg:mb-14">
+        <SectionTitle id="arbeiten-title" class="mb-0">Arbeiten</SectionTitle>
+        <p class="mt-5 max-w-[40rem] text-lg">Teile aus unserer Fertigung.</p>
+      </header>
+
+      <ul class="grid list-none grid-cols-2 gap-x-4 gap-y-6 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-8">
+        <li v-for="a in arbeiten" :key="a.datei">
+          <figure>
+            <div class="aspect-[4/5] overflow-hidden border border-navy bg-paper">
+              <img :src="a.src" :alt="a.text" loading="lazy" decoding="async" class="size-full object-cover" />
+            </div>
+            <figcaption class="mt-2 font-mono text-xs text-navy/70">{{ a.text }}</figcaption>
+          </figure>
+        </li>
+      </ul>
     </div>
   </section>
 

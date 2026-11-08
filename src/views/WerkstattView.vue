@@ -1,7 +1,24 @@
 <script setup lang="ts">
 import SectionTitle from '../components/SectionTitle.vue'
 import PlaceholderText from '../components/PlaceholderText.vue'
-import PhotoPlaceholder from '../components/PhotoPlaceholder.vue'
+
+const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
+const fotos = [
+  { label: 'Hermle UWF 1202 S', datei: 'hermle', gross: true },
+  { label: 'Martin-Drehbank', datei: 'drehbank' },
+  { label: 'An der Fräsmaschine', datei: 'mitarbeiter' },
+  { label: 'Werkbank mit Messgerät', datei: 'werkbank' },
+  { label: 'Bohren in der Fräsmaschine', datei: 'bohren' },
+  { label: 'Säulenbohrmaschine', datei: 'bohrmaschine' },
+].map((f) => ({ ...f, src: bilder[`../assets/fotos/${f.datei}.jpg`] }))
+
+const schriftfeld = [
+  { name: 'Benennung', wert: 'Werkstatt', breit: true },
+  { name: 'Betrieb', wert: 'Schüssele Präzision' },
+  { name: 'Ort', wert: 'Neuried' },
+  { name: 'Inhaber', wert: 'Mirco Schüssele' },
+  { name: 'Mitarbeiter', wert: 'Jannik Enderle' },
+]
 
 const maschinen = [
   { verfahren: 'Fräsen', name: 'Hermle UWF 1202 S' },
@@ -12,21 +29,39 @@ const maschinen = [
 
 <template>
   <section class="mx-auto max-w-wide px-pad pt-12 pb-14 md:pt-16 md:pb-20">
-    <header class="mb-10 max-w-[46rem] lg:mb-14">
-      <SectionTitle class="mb-0">Werkstatt</SectionTitle>
-      <p class="mt-5 max-w-[40rem] text-lg">
-        So sieht es bei uns aus.
-        <PlaceholderText>Platzhalter: kurzer Satz zur Werkstatt, z. B. seit wann es den Betrieb gibt</PlaceholderText>
-      </p>
+    <header class="mb-10 grid gap-8 lg:mb-14 lg:grid-cols-[minmax(0,46rem)_auto] lg:items-end lg:justify-between">
+      <div>
+        <SectionTitle class="mb-0">Werkstatt</SectionTitle>
+        <p class="mt-5 max-w-[40rem] text-lg">
+          So sieht es bei uns aus.
+          <PlaceholderText>Platzhalter: kurzer Satz zur Werkstatt, z. B. seit wann es den Betrieb gibt</PlaceholderText>
+        </p>
+      </div>
+      <dl class="grid w-full max-w-[380px] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8rem] text-navy">
+        <div
+          v-for="(f, i) in schriftfeld"
+          :key="f.name"
+          class="px-3 py-1.5"
+          :class="[f.breit ? 'col-span-2' : '', i > 0 ? 'border-t border-navy' : '', !f.breit && i % 2 === 1 ? 'border-r' : '']"
+        >
+          <dt class="text-[0.72rem] tracking-[0.06em] uppercase opacity-75">{{ f.name }}</dt>
+          <dd class="whitespace-nowrap">{{ f.wert }}</dd>
+        </div>
+      </dl>
     </header>
 
     <div class="grid gap-6 md:grid-cols-3 md:grid-rows-[16rem_16rem_18rem]">
-      <PhotoPlaceholder label="CNC-Fräsmaschine, Arbeitsraum" class="h-72 md:col-span-2 md:row-span-2 md:h-auto" />
-      <PhotoPlaceholder label="Drehteile aus der Fertigung" class="h-56 md:h-auto" />
-      <PhotoPlaceholder label="Mirco Schüssele an der Maschine" class="h-56 md:h-auto" />
-      <PhotoPlaceholder label="Messen und Prüfen" class="h-56 md:h-auto" />
-      <PhotoPlaceholder label="Werkzeuge und Spannmittel" class="h-56 md:h-auto" />
-      <PhotoPlaceholder label="Werkstatt von außen" class="h-56 md:h-auto" />
+      <figure
+        v-for="f in fotos"
+        :key="f.datei"
+        class="flex flex-col"
+        :class="f.gross ? 'h-72 md:col-span-2 md:row-span-2 md:h-auto' : 'h-72 md:h-auto'"
+      >
+        <div class="relative flex-1 overflow-hidden border border-navy bg-paper">
+          <img :src="f.src" :alt="f.label" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" />
+        </div>
+        <figcaption class="mt-2 font-mono text-xs text-navy/60">{{ f.label }}</figcaption>
+      </figure>
     </div>
   </section>
 
