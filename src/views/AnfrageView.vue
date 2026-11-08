@@ -135,6 +135,7 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
 </script>
 
 <template>
+  <div class="border-b border-navy/15 bg-paper bg-grid">
   <div class="mx-auto max-w-wide px-pad py-12 md:py-20">
     <div class="grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
       <aside class="lg:sticky lg:top-32 lg:self-start">
@@ -361,5 +362,6 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
         <p v-if="status !== 'success' && status !== 'mailto'" class="mt-6 text-sm text-navy/60"><span class="text-teal-dark">*</span> Pflichtfelder</p>
       </div>
     </div>
+  </div>
   </div>
 </template>
