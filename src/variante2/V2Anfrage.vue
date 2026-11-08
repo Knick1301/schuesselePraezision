@@ -121,7 +121,7 @@ async function submit() {
       fd.append(k, Array.isArray(v) ? v.join(', ') : String(v))
     }
     fd.append('zusammenfassung', summaryText())
-    files.value.forEach((f) => fd.append('dateien', f, f.name))
+    files.value.forEach((f) => fd.append('dateien[]', f, f.name))
     const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
     if (!res.ok) throw new Error(String(res.status))
     status.value = 'success'
