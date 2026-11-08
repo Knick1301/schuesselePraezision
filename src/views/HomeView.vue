@@ -59,7 +59,8 @@ const titleBlock = [
               Inhabergeführt von Mirco Schüssele.
             </p>
             <RouterLink to="/anfrage"
-              class="inline-flex min-h-[3rem] items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">Zum
+              class="inline-flex min-h-[3rem] items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">
+              Zum
               Anfrageformular</RouterLink>
           </div>
 
@@ -107,7 +108,8 @@ const titleBlock = [
 
       <div
         class="grid divide-y divide-navy/25 border-y border-navy md:grid-cols-2 md:grid-rows-[auto_auto_1fr_auto] md:divide-y-0 xl:grid-cols-4 xl:divide-x">
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
+        <article
+          class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="welle" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Drehen</h3>
           <p class="mb-6">Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.</p>
@@ -123,7 +125,8 @@ const titleBlock = [
           </dl>
         </article>
 
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
+        <article
+          class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="fraesteil" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Fräsen</h3>
           <p class="mb-6">Platten, Halter, Gehäuse, Taschen und Bohrbilder.</p>
@@ -139,7 +142,8 @@ const titleBlock = [
           </dl>
         </article>
 
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
+        <article
+          class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="winkel" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Metall&shy;bearbeitung</h3>
           <p class="mb-6">Bohren, Sägen, Schweißen.</p>
@@ -149,7 +153,8 @@ const titleBlock = [
           </dl>
         </article>
 
-        <article class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
+        <article
+          class="py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t md:nth-[n+3]:border-navy/25 xl:px-8 xl:first:pl-0 xl:last:pr-0 xl:nth-[n+3]:border-t-0">
           <PartSketch type="buchse" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold">Reparatur &amp; Sonder&shy;teile</h3>
           <p class="mb-6">Reparaturen von Lagersitzen, Wellen und mehr. Sonderteile auch nach Muster.</p>
@@ -164,20 +169,19 @@ const titleBlock = [
         <div class="lg:pr-10">
           <h3 class="mb-1.5 text-lg font-semibold">Werkstoffe</h3>
           <p>
-            <PlaceholderText>Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff</PlaceholderText>
+            Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff, etc.
           </p>
         </div>
         <div class="lg:px-10">
           <h3 class="mb-1.5 text-lg font-semibold">Stückzahlen</h3>
           <p>
             Ab 1 Stück – auch individuelle Lösungen.
-            <PlaceholderText>Platzhalter: bis … Stück</PlaceholderText>
           </p>
         </div>
         <div class="lg:pl-10">
-          <h3 class="mb-1.5 text-lg font-semibold">Was wir nicht machen</h3>
+          <h3 class="mb-1.5 text-lg font-semibold">Zusätzliche Dienstleistungen</h3>
           <p>
-            <PlaceholderText>Platzhalter: beim Kunden erfragen, z. B. Großserien, Beschichten</PlaceholderText>
+            Platzhalter: beim Kunden erfragen, z. B. Großserien, Beschichten
           </p>
         </div>
       </div>
@@ -208,7 +212,8 @@ const titleBlock = [
     <div class="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-20">
       <div>
         <SectionTitle id="kontakt-title" class="mb-0">Kontakt</SectionTitle>
-        <p class="mt-5 mb-10 max-w-[32rem] text-lg">Am schnellsten geht es telefonisch. Zeichnungen gerne per E-Mail.</p>
+        <p class="mt-5 mb-10 max-w-[32rem] text-lg">Am schnellsten geht es telefonisch. Zeichnungen gerne per E-Mail.
+        </p>
 
         <address class="not-italic">
           <dl class="border-t border-navy">
@@ -216,7 +221,8 @@ const titleBlock = [
               <dt class="font-mono text-[0.8125rem] text-navy/75">Ansprechpartner</dt>
               <dd class="flex items-center gap-3">
                 <span class="relative size-12 shrink-0 overflow-hidden rounded-full border border-navy/60 bg-[#e9edf1]">
-                  <span class="absolute inset-0 flex items-center justify-center font-mono text-[0.55rem] text-teal-dark">[Foto]</span>
+                  <span
+                    class="absolute inset-0 flex items-center justify-center font-mono text-[0.55rem] text-teal-dark">[Foto]</span>
                 </span>
                 <span class="font-semibold">Mirco Schüssele</span>
               </dd>
@@ -231,7 +237,8 @@ const titleBlock = [
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">E-Mail</dt>
-              <dd><a href="mailto:info@schuessele-praezision.de" class="font-mono break-all">info@schuessele-praezision.de</a></dd>
+              <dd><a href="mailto:info@schuessele-praezision.de"
+                  class="font-mono break-all">info@schuessele-praezision.de</a></dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Adresse</dt>
@@ -239,7 +246,9 @@ const titleBlock = [
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Erreichbar</dt>
-              <dd><PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText></dd>
+              <dd>
+                <PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText>
+              </dd>
             </div>
           </dl>
         </address>
