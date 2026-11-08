@@ -243,10 +243,6 @@ const begriff = 'text-[0.875rem] text-navy/60'
               </dd>
             </div>
             <div :class="zeile">
-              <dt :class="begriff">Mitarbeiter</dt>
-              <dd class="m-0 text-[1.125rem]">Jannik Enderle</dd>
-            </div>
-            <div :class="zeile">
               <dt :class="begriff">Telefon</dt>
               <dd class="m-0"><a :href="TEL_LINK" class="font-mono text-[1.5rem] text-navy no-underline hover:underline">{{ TEL }}</a></dd>
             </div>

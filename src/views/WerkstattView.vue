@@ -8,7 +8,7 @@ const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, 
 const fotos = [
   { label: 'Hermle UWF 1202 S', datei: 'hermle', gross: true },
   { label: 'Martin-Drehbank', datei: 'drehbank' },
-  { label: 'An der Fräsmaschine', datei: 'mitarbeiter' },
+  { label: 'Werkstück in der Fräsmaschine', datei: 'werkstueck' },
   { label: 'Werkbank mit Messgerät', datei: 'werkbank' },
   { label: 'Bohren in der Fräsmaschine', datei: 'bohren' },
   { label: 'Säulenbohrmaschine', datei: 'bohrmaschine' },
@@ -18,8 +18,7 @@ const schriftfeld = [
   { name: 'Benennung', wert: 'Werkstatt', breit: true },
   { name: 'Betrieb', wert: 'Schüssele Präzision' },
   { name: 'Ort', wert: 'Neuried' },
-  { name: 'Inhaber', wert: 'Mirco Schüssele' },
-  { name: 'Mitarbeiter', wert: 'Jannik Enderle' },
+  { name: 'Inhaber', wert: 'Mirco Schüssele', breit: true },
 ]
 
 const maschinen = [

@@ -12,7 +12,7 @@ const bild = (name: string) => bilder[`./fotos/${name}.jpg`]
 const fotos = [
   { label: 'Hermle UWF 1202 S', datei: 'hermle', gross: true },
   { label: 'Martin-Drehbank', datei: 'drehbank' },
-  { label: 'An der Fräsmaschine', datei: 'mitarbeiter' },
+  { label: 'Werkstück in der Fräsmaschine', datei: 'werkstueck' },
   { label: 'Werkbank mit Messgerät', datei: 'werkbank' },
   { label: 'Bohren in der Fräsmaschine', datei: 'bohren' },
   { label: 'Säulenbohrmaschine', datei: 'bohrmaschine' },
@@ -22,8 +22,7 @@ const schriftfeld = [
   { name: 'Benennung', wert: 'Werkstatt', breit: true },
   { name: 'Betrieb', wert: 'Schüssele Präzision', breit: false },
   { name: 'Ort', wert: 'Neuried', breit: false },
-  { name: 'Inhaber', wert: 'Mirco Schüssele', breit: false },
-  { name: 'Mitarbeiter', wert: 'Jannik Enderle', breit: false },
+  { name: 'Inhaber', wert: 'Mirco Schüssele', breit: true },
 ]
 
 const maschinen = [
