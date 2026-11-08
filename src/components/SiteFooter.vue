@@ -30,7 +30,7 @@ const INSTAGRAM = 'https://www.instagram.com/schuessele_praezision/'
         <span class="font-mono text-sm opacity-60">© {{ year }} Schüssele Präzision</span>
       </nav>
 
-      <a :href="https://www.instagram.com/schuessele_praezision/" target="_blank" rel="noopener"
+      <a :href="INSTAGRAM" target="_blank" rel="noopener"
         aria-label="Schüssele Präzision auf Instagram"
         class="mx-auto flex size-11 items-center justify-center text-white transition-colors hover:text-teal md:mx-0">
         <svg viewBox="0 0 24 24" class="size-7" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
