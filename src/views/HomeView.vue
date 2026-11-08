@@ -183,7 +183,7 @@ const titleBlock = [
         <div class="lg:pr-10">
           <h3 class="mb-1.5 text-lg font-semibold">Werkstoffe</h3>
           <p>
-            <PlaceholderText>Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff</PlaceholderText>
+            Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff, etc.
           </p>
         </div>
         <div class="lg:px-10">
