@@ -70,8 +70,7 @@ watch(
         <RouterLink v-for="l in links" :key="l.label" :to="l.to"
           class="border-b border-white/15 py-3 text-base font-semibold no-underline nav:border-b-2 nav:py-1.5 nav:hover:border-teal"
           :class="isActive(l) ? 'text-teal nav:border-teal nav:text-white' : 'text-white nav:border-transparent'"
-          :aria-current="isActive(l) ? 'page' : undefined"
-          @click="open = false">
+          :aria-current="isActive(l) ? 'page' : undefined" @click="open = false">
           {{ l.label }}
         </RouterLink>
       </nav>
@@ -79,10 +78,11 @@ watch(
       <a href="tel:+4917622759201"
         class="hidden items-center gap-1.5 border border-white/60 px-3.5 py-2.5 font-mono text-sm whitespace-nowrap text-white no-underline transition-colors hover:border-white hover:bg-white hover:text-navy nav:inline-flex">
         <svg viewBox="0 0 24 24" aria-hidden="true" class="size-4">
-          <path d="M21 16.4v2.9a2 2 0 0 1-2.2 2A18 18 0 0 1 2.7 5.2 2 2 0 0 1 4.7 3h2.9a1.6 1.6 0 0 1 1.6 1.3l.6 3a1.6 1.6 0 0 1-.5 1.5l-1.4 1.3a14 14 0 0 0 6 6l1.3-1.4a1.6 1.6 0 0 1 1.5-.5l3 .6a1.6 1.6 0 0 1 1.3 1.6Z" fill="none" stroke="currentColor" stroke-width="1.6"
-            stroke-linejoin="round" />
+          <path
+            d="M21 16.4v2.9a2 2 0 0 1-2.2 2A18 18 0 0 1 2.7 5.2 2 2 0 0 1 4.7 3h2.9a1.6 1.6 0 0 1 1.6 1.3l.6 3a1.6 1.6 0 0 1-.5 1.5l-1.4 1.3a14 14 0 0 0 6 6l1.3-1.4a1.6 1.6 0 0 1 1.5-.5l3 .6a1.6 1.6 0 0 1 1.3 1.6Z"
+            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
         </svg>
-        <span>0176 22 75 92 01</span>
+        <span>0176 22759201</span>
       </a>
 
       <button type="button" class="flex size-11 cursor-pointer flex-col justify-center gap-1.5 px-2.5 nav:hidden"
@@ -97,8 +97,9 @@ watch(
     <a href="tel:+4917622759201"
       class="flex items-center justify-center gap-2 border-t border-white/10 py-2 font-mono text-sm text-white no-underline nav:hidden">
       <svg viewBox="0 0 24 24" aria-hidden="true" class="size-4 text-teal">
-        <path d="M21 16.4v2.9a2 2 0 0 1-2.2 2A18 18 0 0 1 2.7 5.2 2 2 0 0 1 4.7 3h2.9a1.6 1.6 0 0 1 1.6 1.3l.6 3a1.6 1.6 0 0 1-.5 1.5l-1.4 1.3a14 14 0 0 0 6 6l1.3-1.4a1.6 1.6 0 0 1 1.5-.5l3 .6a1.6 1.6 0 0 1 1.3 1.6Z" fill="none" stroke="currentColor" stroke-width="1.6"
-          stroke-linejoin="round" />
+        <path
+          d="M21 16.4v2.9a2 2 0 0 1-2.2 2A18 18 0 0 1 2.7 5.2 2 2 0 0 1 4.7 3h2.9a1.6 1.6 0 0 1 1.6 1.3l.6 3a1.6 1.6 0 0 1-.5 1.5l-1.4 1.3a14 14 0 0 0 6 6l1.3-1.4a1.6 1.6 0 0 1 1.5-.5l3 .6a1.6 1.6 0 0 1 1.3 1.6Z"
+          fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
       </svg>
       0176 22 75 92 01
     </a>

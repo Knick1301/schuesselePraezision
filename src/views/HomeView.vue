@@ -41,7 +41,7 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
     text: 'Platten, Halter, Gehäuse, Taschen und Bohrbilder.',
     werte: [
       { name: 'X / Y / Z', wert: '850 × 650 × 500 mm' },
-      { name: 'Achsen', wert: '', offen: true },
+
     ],
   },
   {
@@ -70,9 +70,9 @@ const ADRESSE = 'Vogesenstraße 1, 77743 Neuried'
 const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADRESSE)}`
 
 const facts = [
-  { label: 'Stückzahlen', value: 'z. B. 1–500' },
+  { label: 'Inhaber', value: 'Mirco Schüssele' },
   { label: 'Werkstoffe', value: 'z. B. Stahl, Alu' },
-  { label: 'Region', value: 'z. B. Ortenau' },
+  { label: 'Region', value: 'Ortenau' },
 ]
 
 const titleBlock = [
@@ -159,15 +159,13 @@ const titleBlock = [
 
       <div
         class="grid divide-y divide-navy/25 border-y border-navy md:grid-cols-2 md:grid-rows-[repeat(3,auto_auto_1fr_auto)] md:divide-y-0 xl:grid-cols-3 xl:grid-rows-[repeat(2,auto_auto_1fr_auto)]">
-        <article
-          v-for="l in leistungen"
-          :key="l.titel"
-          class="border-navy/25 py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t xl:px-8 xl:odd:pr-8 xl:even:pl-8 xl:nth-[3n+1]:pl-0 xl:nth-[3n]:pr-0 xl:nth-3:border-t-0 xl:not-nth-[3n+1]:border-l"
-        >
+        <article v-for="l in leistungen" :key="l.titel"
+          class="border-navy/25 py-10 md:row-span-4 md:grid md:grid-rows-subgrid md:odd:pr-8 md:even:pl-8 md:nth-[n+3]:border-t xl:px-8 xl:odd:pr-8 xl:even:pl-8 xl:nth-[3n+1]:pl-0 xl:nth-[3n]:pr-0 xl:nth-3:border-t-0 xl:not-nth-[3n+1]:border-l">
           <PartSketch :type="l.skizze" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold" v-html="l.titel" />
           <p class="mb-6">{{ l.text }}</p>
-          <dl v-if="l.werte.length" class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+          <dl v-if="l.werte.length"
+            class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
             <template v-for="w in l.werte" :key="w.name">
               <dt class="text-navy/75">{{ w.name }}</dt>
               <dd>
@@ -183,7 +181,7 @@ const titleBlock = [
         <div class="lg:pr-10">
           <h3 class="mb-1.5 text-lg font-semibold">Werkstoffe</h3>
           <p>
-            Platzhalter: z. B. Stahl, Edelstahl, Aluminium, Messing, Kunststoff, etc.
+            Stahl, Edelstahl, Aluminium, Messing, Kunststoff, etc.
           </p>
         </div>
         <div class="lg:px-10">
@@ -212,9 +210,12 @@ const titleBlock = [
       <ul class="grid list-none grid-cols-2 gap-x-4 gap-y-6 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-8">
         <li v-for="(a, i) in arbeiten" :key="a.datei">
           <figure>
-            <button type="button" class="block aspect-[4/5] w-full cursor-zoom-in overflow-hidden border border-navy bg-paper p-0" @click="ansicht = i">
+            <button type="button"
+              class="block aspect-[4/5] w-full cursor-zoom-in overflow-hidden border border-navy bg-paper p-0"
+              @click="ansicht = i">
               <span class="sr-only">{{ a.text }} vergrößern</span>
-              <img :src="a.src" :alt="a.text" loading="lazy" decoding="async" class="size-full object-cover transition-transform duration-300 hover:scale-[1.03]" />
+              <img :src="a.src" :alt="a.text" loading="lazy" decoding="async"
+                class="size-full object-cover transition-transform duration-300 hover:scale-[1.03]" />
             </button>
             <figcaption class="mt-2 font-mono text-xs text-navy/70">{{ a.text }}</figcaption>
           </figure>
@@ -245,7 +246,7 @@ const titleBlock = [
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Telefon</dt>
-              <dd><a href="tel:+4917622759201" class="font-mono text-2xl text-navy">0176 22 75 92 01</a></dd>
+              <dd><a href="tel:+4917622759201" class="font-mono no-underline text-2xl text-navy">0176 22759201</a></dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">E-Mail</dt>
@@ -259,7 +260,7 @@ const titleBlock = [
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Erreichbar</dt>
               <dd>
-                <PlaceholderText>Platzhalter: Öffnungszeiten</PlaceholderText>
+                Mo - Fr: &ensp; ab 16 Uhr
               </dd>
             </div>
           </dl>
@@ -282,7 +283,8 @@ const titleBlock = [
             Luftbild: <a href="https://www.lgl-bw.de" target="_blank" rel="noopener" class="text-navy/60">LGL-BW</a>
             (2026),
             <a href="https://www.govdata.de/dl-de/by-2-0" target="_blank" rel="noopener"
-              class="text-navy/60">Datenlizenz Deutschland – Namensnennung – Version 2.0</a>
+              class="text-navy/60">Datenlizenz
+              Deutschland – Namensnennung – Version 2.0</a>
           </span>
         </figcaption>
       </figure>

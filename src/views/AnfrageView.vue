@@ -136,72 +136,75 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
 
 <template>
   <div class="border-b border-navy/15 bg-paper bg-grid">
-  <div class="mx-auto max-w-wide px-pad py-12 md:py-20">
-    <div class="grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
-      <aside class="lg:sticky lg:top-32 lg:self-start">
-        <h1 class="mb-6 text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.1] font-bold text-balance">
-          Was können wir für Sie tun?
-        </h1>
-        <p class="mb-4 max-w-[32rem] text-lg">
-          Schicken Sie uns Ihre Zeichnung und schreiben Sie dazu, wie viele Teile Sie brauchen, aus welchem
-          Werkstoff und bis wann. Dann bekommen Sie ein Angebot.
-        </p>
-        <p class="mb-10 max-w-[32rem]">
-          Wenn etwas fehlt oder unklar ist, fragen wir nach. Sie müssen also nicht jedes Feld ausfüllen.
-        </p>
+    <div class="mx-auto max-w-wide px-pad py-12 md:py-20">
+      <div class="grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
+        <aside class="lg:sticky lg:top-32 lg:self-start">
+          <h1 class="mb-6 text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.1] font-bold text-balance">
+            Was können wir für Sie tun?
+          </h1>
+          <p class="mb-4 max-w-[32rem] text-lg">
+            Schicken Sie uns Ihre Zeichnung und schreiben Sie dazu, wie viele Teile Sie brauchen, aus welchem
+            Werkstoff und bis wann. Dann bekommen Sie ein Angebot.
+          </p>
+          <p class="mb-10 max-w-[32rem]">
+            Wenn etwas fehlt oder unklar ist, fragen wir nach. Sie müssen also nicht jedes Feld ausfüllen.
+          </p>
 
-        <p class="border-t border-navy/20 pt-6">
-          Lieber anrufen?<br />
-          <a href="tel:+4917622759201" class="font-mono text-2xl text-navy">0176 22 75 92 01</a>
-        </p>
-        <p class="mt-2">
-          oder schreiben an <a :href="`mailto:${MAIL}`" class="font-mono text-sm break-all">{{ MAIL }}</a>
-        </p>
-        <p class="mt-4 text-sm text-navy/70">Antwort meist <PlaceholderText>Platzhalter: Zeitraum</PlaceholderText>.</p>
-      </aside>
+          <p class="border-t border-navy/20 pt-6">
+            Lieber anrufen?<br />
+            <a href="tel:+4917622759201" class="font-mono text-2xl text-navy">0176 22759201</a>
+          </p>
+          <p class="mt-2">
+            oder schreiben an <a :href="`mailto:${MAIL}`" class="font-mono text-sm break-all">{{ MAIL }}</a>
+          </p>
 
-      <div>
-        <div v-if="status === 'success' || status === 'mailto'" class="border border-navy bg-white p-6 md:p-8"
-          role="status">
-          <template v-if="status === 'success'">
-            <h2 class="mb-3 text-2xl font-semibold">Danke, Ihre Anfrage ist bei uns.</h2>
-            <p class="mb-3">
-              Wir sehen uns Zeichnung und Angaben an und melden uns bei Ihnen –
-              in der Regel <PlaceholderText>Platzhalter: z. B. innerhalb von 2 Werktagen</PlaceholderText>.
-            </p>
-            <p>Bei Rückfragen rufen wir Sie an, wenn Sie eine Telefonnummer angegeben haben.</p>
-          </template>
-          <template v-else>
-            <h2 class="mb-3 text-2xl font-semibold">Ihr E-Mail-Programm hat sich geöffnet.</h2>
-            <p class="mb-3">
-              Die Angaben stehen schon in der E-Mail. Bitte hängen Sie dort noch Ihre Dateien an
-              (<span class="font-mono text-sm">{{files.map((f) => f.name).join(', ')}}</span>) und senden Sie die E-Mail
-              ab.
-            </p>
-            <p>
-              Hat sich nichts geöffnet? Schreiben Sie direkt an
-              <a :href="`mailto:${MAIL}`">{{ MAIL }}</a>.
-            </p>
-          </template>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <RouterLink to="/"
-              class="inline-flex min-h-[2.9rem] items-center border border-navy bg-navy px-5 py-2.5 text-[0.95rem] font-semibold text-white no-underline hover:bg-teal-dark">
-              Zur Startseite</RouterLink>
-            <button v-if="status === 'mailto'" type="button"
-              class="inline-flex min-h-[2.9rem] cursor-pointer items-center border border-navy bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-navy hover:bg-navy hover:text-white"
-              @click="status = 'form'">Zurück zum Formular</button>
+        </aside>
+
+        <div>
+          <div v-if="status === 'success' || status === 'mailto'" class="border border-navy bg-white p-6 md:p-8"
+            role="status">
+            <template v-if="status === 'success'">
+              <h2 class="mb-3 text-2xl font-semibold">Danke, Ihre Anfrage ist bei uns.</h2>
+              <p class="mb-3">
+                Wir sehen uns Zeichnung und Angaben an und melden uns bei Ihnen –
+                in der Regel <PlaceholderText>Platzhalter: z. B. innerhalb von 2 Werktagen</PlaceholderText>.
+              </p>
+              <p>Bei Rückfragen rufen wir Sie an, wenn Sie eine Telefonnummer angegeben haben.</p>
+            </template>
+            <template v-else>
+              <h2 class="mb-3 text-2xl font-semibold">Ihr E-Mail-Programm hat sich geöffnet.</h2>
+              <p class="mb-3">
+                Die Angaben stehen schon in der E-Mail. Bitte hängen Sie dort noch Ihre Dateien an
+                (<span class="font-mono text-sm">{{files.map((f) => f.name).join(', ')}}</span>) und senden Sie die
+                E-Mail
+                ab.
+              </p>
+              <p>
+                Hat sich nichts geöffnet? Schreiben Sie direkt an
+                <a :href="`mailto:${MAIL}`">{{ MAIL }}</a>.
+              </p>
+            </template>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <RouterLink to="/"
+                class="inline-flex min-h-[2.9rem] items-center border border-navy bg-navy px-5 py-2.5 text-[0.95rem] font-semibold text-white no-underline hover:bg-teal-dark">
+                Zur Startseite</RouterLink>
+              <button v-if="status === 'mailto'" type="button"
+                class="inline-flex min-h-[2.9rem] cursor-pointer items-center border border-navy bg-white px-5 py-2.5 text-[0.95rem] font-semibold text-navy hover:bg-navy hover:text-white"
+                @click="status = 'form'">Zurück zum Formular</button>
+            </div>
           </div>
-        </div>
 
           <form v-else novalidate class="space-y-12" @submit.prevent="submit">
             <div v-if="errorList.length" id="fehler" tabindex="-1" role="alert"
               class="border border-red-700 bg-red-50 p-4 text-sm text-red-800 focus:outline-none">
               <p class="mb-1 font-semibold">Bitte prüfen Sie noch:</p>
               <ul class="list-disc pl-5">
-                <li v-for="[key, msg] in errorList" :key="key"><a :href="`#${key}`" class="text-red-800">{{ msg }}</a></li>
+                <li v-for="[key, msg] in errorList" :key="key"><a :href="`#${key}`" class="text-red-800">{{ msg }}</a>
+                </li>
               </ul>
             </div>
-            <div v-if="status === 'error'" role="alert" class="border border-red-700 bg-red-50 p-4 text-sm text-red-800">
+            <div v-if="status === 'error'" role="alert"
+              class="border border-red-700 bg-red-50 p-4 text-sm text-red-800">
               Das Senden hat nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie an
               <a :href="`mailto:${MAIL}`" class="text-red-800">{{ MAIL }}</a>.
             </div>
@@ -273,14 +276,15 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
               <fieldset class="mt-6">
                 <legend :class="label">Oberflächenbehandlung</legend>
                 <div class="flex flex-wrap gap-x-6 gap-y-2">
-                  <label v-for="o in OBERFLAECHEN" :key="o" class="flex cursor-pointer items-center gap-2 text-[0.95rem]">
+                  <label v-for="o in OBERFLAECHEN" :key="o"
+                    class="flex cursor-pointer items-center gap-2 text-[0.95rem]">
                     <input v-model="form.oberflaeche" type="checkbox" :value="o" class="size-4 accent-teal-dark" />
                     {{ o }}
                   </label>
                 </div>
                 <label for="oberflaecheAnders" class="sr-only">Andere Oberflächenbehandlung</label>
-                <input id="oberflaecheAnders" v-model="form.oberflaecheAnders" type="text" placeholder="Andere Behandlung"
-                  :class="[input, 'mt-3 sm:max-w-[24rem]']" />
+                <input id="oberflaecheAnders" v-model="form.oberflaecheAnders" type="text"
+                  placeholder="Andere Behandlung" :class="[input, 'mt-3 sm:max-w-[24rem]']" />
               </fieldset>
             </fieldset>
 
@@ -346,7 +350,8 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
                   <span>
                     Ich stimme zu, dass meine Angaben und Dateien zur Bearbeitung der Anfrage elektronisch erhoben und
                     gespeichert
-                    werden. Weitere Informationen in der <RouterLink to="/datenschutz">Datenschutzerklärung</RouterLink>.
+                    werden. Weitere Informationen in der <RouterLink to="/datenschutz">Datenschutzerklärung</RouterLink>
+                    .
                     <span class="text-teal-dark">*</span>
                   </span>
                 </label>
@@ -359,9 +364,10 @@ const legend = 'mb-5 flex w-full items-center gap-4 font-mono text-lg font-semib
               </button>
             </div>
           </form>
-        <p v-if="status !== 'success' && status !== 'mailto'" class="mt-6 text-sm text-navy/60"><span class="text-teal-dark">*</span> Pflichtfelder</p>
+          <p v-if="status !== 'success' && status !== 'mailto'" class="mt-6 text-sm text-navy/60"><span
+              class="text-teal-dark">*</span> Pflichtfelder</p>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
