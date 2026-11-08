@@ -9,12 +9,12 @@ import { ref } from 'vue'
 
 const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
 const arbeiten = [
-  { datei: 'platten', text: 'Gefräste Platten, Serie' },
-  { datei: 'flansche', text: 'Flansche mit Gewindebolzen' },
-  { datei: 'buchse', text: 'Bronzebuchse, innen gedreht' },
-  { datei: 'reparatur', text: 'Reparatur auf dem Frästisch' },
-  { datei: 'flansch', text: 'Flansch, gedreht und gebohrt' },
-  { datei: 'riemenscheibe', text: 'Riemenscheibe mit Nabe' },
+  { datei: 'platten', text: 'Getriebeblöcke aus Stahl in Kleinserie gefräst' },
+  { datei: 'flansche', text: 'Spurplatten für Schmalspurschlepper als Dreh- und Frästeil' },
+  { datei: 'buchse', text: 'Buchse aus RG7 mit Schmiernut' },
+  { datei: 'reparatur', text: 'Lagersitz einer Vorderachse ausbuchsen' },
+  { datei: 'flansch', text: 'Spurplatte' },
+  { datei: 'riemenscheibe', text: 'Herstellen von Riemenscheibe passend auf Mehrkantverzahnung' },
 ].map((a) => ({ ...a, src: bilder[`../assets/fotos/${a.datei}.jpg`]! }))
 
 type Wert = { name: string; wert: string; offen?: boolean }
