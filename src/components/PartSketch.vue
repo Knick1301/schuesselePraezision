@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
-const props = defineProps<{ type: 'welle' | 'fraesteil' | 'winkel' | 'buchse' }>()
+const props = defineProps<{ type: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad' }>()
 
 const root = ref<SVGSVGElement>()
 const drawn = ref(false)
@@ -247,7 +247,91 @@ const buchse = (() => {
   }
 })()
 
-const shape = computed(() => ({ welle, fraesteil, winkel, buchse })[props.type])
+const montage = (() => {
+  const ox = 80
+  const oy = 18
+  const L = 80
+  const B = 46
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const box = (x0: number, x1: number, y0: number, y1: number, z0: number, z1: number) => ({
+    edges: [
+      line([p(x0, y0, z1), p(x1, y0, z1), p(x1, y1, z1), p(x0, y1, z1)], true),
+      line([p(x0, y1, z1), p(x0, y1, z0), p(x1, y1, z0), p(x1, y1, z1)]),
+      line([p(x1, y1, z0), p(x1, y0, z0), p(x1, y0, z1)]),
+    ],
+    fills: [
+      { d: line([p(x0, y1, z1), p(x1, y1, z1), p(x1, y1, z0), p(x0, y1, z0)], true), tone: 'mid' as Tone },
+      { d: line([p(x1, y0, z1), p(x1, y1, z1), p(x1, y1, z0), p(x1, y0, z0)], true), tone: 'dark' as Tone },
+      { d: line([p(x0, y0, z1), p(x1, y0, z1), p(x1, y1, z1), p(x0, y1, z1)], true), tone: 'light' as Tone },
+    ],
+  })
+  const unten = box(0, L, 0, B, 0, 10)
+  const oben = box(14, L - 14, 8, B - 8, 10, 22)
+  const schrauben = [
+    [24, 16],
+    [L - 24, 16],
+    [24, B - 16],
+    [L - 24, B - 16],
+  ].map(([x, y]) => {
+    const kopf = isoEllipse(x!, y!, 26, 4, ox, oy)
+    const fuss = isoEllipse(x!, y!, 22, 4, ox, oy)
+    return { kopf, fuss, seiten: [line([p(x! + 4 * 0.5, y! - 4 * 0.87, 22), p(x! + 4 * 0.5, y! - 4 * 0.87, 26)]), line([p(x! - 4 * 0.5, y! + 4 * 0.87, 22), p(x! - 4 * 0.5, y! + 4 * 0.87, 26)])] }
+  })
+  const fills: Fill[] = [
+    ...unten.fills,
+    ...oben.fills,
+    ...schrauben.flatMap((s) => [
+      { d: s.fuss + ' Z', tone: 'dark' as Tone },
+      { d: s.kopf + ' Z', tone: 'shine' as Tone },
+    ]),
+  ]
+  return {
+    main: [...unten.edges, ...oben.edges, ...schrauben.flatMap((s) => [s.kopf, ...s.seiten])],
+    center: line([p(L / 2, -8, 22), p(L / 2, B + 8, 22)]),
+    fills,
+  }
+})()
+
+const zahnrad = (() => {
+  const ox = 70
+  const oy = 40
+  const H = 10
+  const p = (x: number, y: number, z: number) => iso(x, y, z, ox, oy)
+  const zaehne = 12
+  const ra = 34
+  const ri = 28
+  const umriss: [number, number][] = []
+  for (let i = 0; i < zaehne; i++) {
+    const a = (i / zaehne) * Math.PI * 2
+    const s = (Math.PI * 2) / zaehne
+    for (const [t, r] of [
+      [0, ri],
+      [0.18, ra],
+      [0.5, ra],
+      [0.68, ri],
+    ] as [number, number][]) {
+      umriss.push([r * Math.cos(a + t * s), r * Math.sin(a + t * s)])
+    }
+  }
+  const oben = line(umriss.map(([x, y]) => p(x, y, H)), true)
+  const unten = line(umriss.map(([x, y]) => p(x, y, 0)), true)
+  const huelle = hull([...umriss.map(([x, y]) => p(x, y, H)), ...umriss.map(([x, y]) => p(x, y, 0))])
+  const bohrung = isoEllipse(0, 0, H, 9, ox, oy)
+  const nabe = isoEllipse(0, 0, H, 15, ox, oy)
+  return {
+    main: [line(huelle, true), oben, nabe, bohrung],
+    center: line([p(-44, 0, H), p(44, 0, H)]),
+    fills: [
+      { d: line(huelle, true), tone: 'dark' as Tone },
+      { d: unten, tone: 'mid' as Tone },
+      { d: [oben, bohrung + ' Z'].join(' '), tone: 'light' as Tone },
+      { d: nabe + ' Z', tone: 'shine' as Tone },
+      { d: bohrung + ' Z', tone: 'hole' as Tone },
+    ],
+  }
+})()
+
+const shape = computed(() => ({ welle, fraesteil, winkel, buchse, montage, zahnrad })[props.type])
 
 const viewBox = computed(() => {
   const nums = [shape.value.center, ...shape.value.main]

@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import SectionTitle from '../components/SectionTitle.vue'
+import BildAnsicht from '../components/BildAnsicht.vue'
 import PlaceholderText from '../components/PlaceholderText.vue'
 
 const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
@@ -21,10 +23,16 @@ const schriftfeld = [
 ]
 
 const maschinen = [
-  { verfahren: 'Fräsen', name: 'Hermle UWF 1202 S' },
-  { verfahren: 'Drehen', name: '' },
-  { verfahren: 'Messen / Prüfen', name: '' },
+  { name: 'Hermle UWF 1202 S', verfahren: 'Fräsen', bereich: 'X 850 · Y 650 · Z 500 mm' },
+  { name: 'Martin KM', verfahren: 'Drehen', bereich: 'Ø 400 mm · Länge 2000 mm' },
+  { name: 'Alzmetall AB 3 ESV', verfahren: 'Bohren', bereich: '–' },
+  { name: 'MAG-Schweißgerät', verfahren: 'Schweißen', bereich: '–' },
+  { name: 'WIG-Schweißgerät', verfahren: 'Schweißen', bereich: '–' },
+  { name: 'Messmittel', verfahren: 'Mess- und Prüftechnik', bereich: '–' },
 ]
+
+const ansicht = ref<number | null>(null)
+const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
 </script>
 
 <template>
@@ -57,12 +65,14 @@ const maschinen = [
         class="flex flex-col"
         :class="f.gross ? 'h-72 md:col-span-2 md:row-span-2 md:h-auto' : 'h-72 md:h-auto'"
       >
-        <div class="relative flex-1 overflow-hidden border border-navy bg-paper">
-          <img :src="f.src" :alt="f.label" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" />
-        </div>
+        <button type="button" class="relative flex-1 cursor-zoom-in overflow-hidden border border-navy bg-paper p-0" @click="ansicht = fotos.indexOf(f)">
+          <span class="sr-only">{{ f.label }} vergrößern</span>
+          <img :src="f.src" :alt="f.label" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-[1.03]" />
+        </button>
         <figcaption class="mt-2 font-mono text-xs text-navy/60">{{ f.label }}</figcaption>
       </figure>
     </div>
+    <BildAnsicht v-model="ansicht" :bilder="ansichtBilder" />
   </section>
 
   <section class="border-y border-navy/15 bg-paper" aria-labelledby="maschinen-title">
@@ -88,9 +98,9 @@ const maschinen = [
           <tbody class="align-top [&_td]:p-4 [&_tr]:border-b [&_tr]:border-navy/20">
             <tr v-for="(m, i) in maschinen" :key="i">
               <td class="w-16 font-mono text-sm">{{ i + 1 }}</td>
-              <td><template v-if="m.name">{{ m.name }}</template><PlaceholderText v-else>Platzhalter: Hersteller / Typ</PlaceholderText></td>
+              <td>{{ m.name }}</td>
               <td>{{ m.verfahren }}</td>
-              <td class="font-mono text-sm"><PlaceholderText>Platzhalter</PlaceholderText></td>
+              <td class="font-mono text-sm">{{ m.bereich }}</td>
             </tr>
           </tbody>
         </table>
