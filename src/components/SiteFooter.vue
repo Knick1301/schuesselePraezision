@@ -23,7 +23,7 @@ const INSTAGRAM = 'https://www.instagram.com/schuessele_praezision/'
       </RouterLink>
 
       <nav aria-label="Rechtliches" class="flex flex-col items-center gap-1.5 md:items-end">
-        <RouterLink to="/werkstatt" class="text-white">Werkstatt</RouterLink>
+        <RouterLink to="/werkstatt" class="text-white">Werkstatt &amp; Maschinen</RouterLink>
         <RouterLink to="/anfrage" class="text-white">Anfrage</RouterLink>
         <RouterLink to="/impressum" class="text-white">Impressum</RouterLink>
         <RouterLink to="/datenschutz" class="text-white">Datenschutz</RouterLink>

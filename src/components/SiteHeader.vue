@@ -10,7 +10,7 @@ const open = ref(false)
 const section = ref('')
 const links: NavLink[] = [
   { to: { path: '/', hash: '#leistungen' }, label: 'Leistungen' },
-  { to: { path: '/werkstatt' }, label: 'Werkstatt' },
+  { to: { path: '/werkstatt' }, label: 'Werkstatt & Maschinen' },
   { to: { path: '/anfrage' }, label: 'Anfrage' },
   { to: { path: '/', hash: '#kontakt' }, label: 'Kontakt' },
 ]

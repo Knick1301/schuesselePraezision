@@ -6,7 +6,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'home', component: HomeView, meta: { title: '' } },
-    { path: '/werkstatt', name: 'werkstatt', component: () => import('./views/WerkstattView.vue'), meta: { title: 'Werkstatt' } },
+    { path: '/werkstatt', name: 'werkstatt', component: () => import('./views/WerkstattView.vue'), meta: { title: 'Werkstatt & Maschinen' } },
     { path: '/anfrage', name: 'anfrage', component: () => import('./views/AnfrageView.vue'), meta: { title: 'Anfrage' } },
     ...VARIANTEN.map(({ basis, kopf }) => ({
       path: basis,
@@ -28,7 +28,17 @@ const router = createRouter({
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved
-    if (to.hash) return { el: to.hash, top: to.meta.eigenesLayout ? 0 : 128 }
+    if (to.hash) {
+      const top = to.meta.eigenesLayout ? 0 : 128
+      return new Promise((resolve) => {
+        let versuche = 0
+        const pruefen = () => {
+          if (document.querySelector(to.hash) || versuche++ > 20) resolve({ el: to.hash, top })
+          else setTimeout(pruefen, 50)
+        }
+        setTimeout(pruefen, _from.path === to.path ? 0 : 50)
+      })
+    }
     return { top: 0 }
   },
 })

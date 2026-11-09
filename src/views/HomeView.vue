@@ -19,7 +19,7 @@ const arbeiten = [
 
 type Wert = { name: string; wert: string; offen?: boolean }
 
-const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad'; text: string; werte: Wert[] }[] = [
+const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad'; text: string; werte: Wert[]; maschinen?: boolean }[] = [
   {
     titel: 'Individuelle Lösungen',
     skizze: 'zahnrad' as const,
@@ -28,6 +28,7 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
   },
   {
     titel: 'Drehen',
+    maschinen: true,
     skizze: 'welle' as const,
     text: 'Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.',
     werte: [
@@ -37,6 +38,7 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
   },
   {
     titel: 'Fräsen',
+    maschinen: true,
     skizze: 'fraesteil' as const,
     text: 'Platten, Halter, Gehäuse, Taschen und Bohrbilder.',
     werte: [
@@ -164,6 +166,7 @@ const titleBlock = [
           <PartSketch :type="l.skizze" class="mb-8 block h-36 w-full max-w-[300px]" />
           <h3 class="mb-2 text-2xl font-semibold" v-html="l.titel" />
           <p class="mb-6">{{ l.text }}</p>
+          <div>
           <dl v-if="l.werte.length"
             class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
             <template v-for="w in l.werte" :key="w.name">
@@ -174,6 +177,9 @@ const titleBlock = [
               </dd>
             </template>
           </dl>
+          <RouterLink v-if="l.maschinen" :to="{ path: '/werkstatt', hash: '#maschinen' }"
+            class="mt-4 inline-block text-[0.95rem] font-semibold">Zum Maschinenpark →</RouterLink>
+          </div>
         </article>
       </div>
 

@@ -72,7 +72,7 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
     <BildAnsicht v-model="ansicht" :bilder="ansichtBilder" />
   </section>
 
-  <section class="border-y border-navy/15 bg-paper" aria-labelledby="maschinen-title">
+  <section id="maschinen" class="border-y border-navy/15 bg-paper" aria-labelledby="maschinen-title">
     <div class="mx-auto max-w-wide px-pad py-14 md:py-20">
       <header class="mb-10 max-w-[46rem] lg:mb-14">
         <SectionTitle id="maschinen-title" class="mb-0">Maschinen</SectionTitle>
