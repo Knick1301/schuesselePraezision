@@ -6,12 +6,15 @@ import PlaceholderText from '../components/PlaceholderText.vue'
 
 const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
 const fotos = [
-  { label: 'Hermle UWF 1202 S', datei: 'hermle', hoch: false, pos: 'object-[50%_85%]' },
-  { label: 'Werkstück in der Fräsmaschine', datei: 'werkstueck', hoch: true, pos: '' },
-  { label: 'Bohren in der Fräsmaschine', datei: 'bohren', hoch: true, pos: '' },
-  { label: 'Werkbank mit Messgerät', datei: 'werkbank', hoch: false, pos: 'object-[50%_85%]' },
-  { label: 'Martin-Drehbank', datei: 'drehbank', hoch: false, pos: 'object-[50%_75%]' },
-  { label: 'Säulenbohrmaschine', datei: 'bohrmaschine', hoch: true, pos: '' },
+  { label: 'Hermle UWF 1202 S', datei: 'hermle', form: 'breit', pos: 'object-[50%_85%]' },
+  { label: 'Mirco Schüssele', datei: 'mirco-hermle', form: 'hoch', pos: '' },
+  { label: 'Herstellen einer Vorrichtung', datei: 'bohren', form: 'hoch', pos: '' },
+  { label: 'Werkstattausstattung', datei: 'werkbank', form: 'breit', pos: 'object-[50%_85%]' },
+  { label: 'Programmieren an der Steuerung', datei: 'programmieren', form: 'hoch', pos: 'object-[50%_70%]' },
+  { label: 'An der Fräsmaschine', datei: 'an-der-hermle', form: 'hoch', pos: '' },
+  { label: 'Werkstück ausrichten', datei: 'einrichten', form: 'hoch', pos: '' },
+  { label: 'Martin-Drehbank', datei: 'drehbank', form: 'breit', pos: 'object-[50%_75%]' },
+  { label: 'Alzmetall Bohrmaschinen', datei: 'bohrmaschine', form: 'hoch', pos: '' },
 ].map((f) => ({ ...f, src: bilder[`../assets/fotos/${f.datei}.jpg`] }))
 
 const schriftfeld = [
@@ -58,13 +61,15 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
     </header>
 
     <div class="grid gap-6 md:grid-cols-3">
-      <figure v-for="f in fotos" :key="f.datei" class="flex flex-col" :class="f.hoch ? '' : 'md:col-span-2'">
-        <button type="button" class="relative cursor-zoom-in overflow-hidden border border-navy bg-paper p-0"
-          :class="f.hoch ? 'aspect-[3/4]' : 'aspect-[4/3] md:aspect-auto md:flex-1'"
-          @click="ansicht = fotos.indexOf(f)">
+      <figure v-for="f in fotos" :key="f.datei" class="flex flex-col" :class="{ 'md:col-span-2': f.form === 'breit' }">
+        <button type="button" class="relative cursor-zoom-in overflow-hidden border border-navy bg-paper p-0" :class="{
+          'aspect-[4/3] md:aspect-auto md:flex-1': f.form === 'breit',
+          'aspect-[3/4]': f.form === 'hoch',
+        }" @click="ansicht = fotos.indexOf(f)">
           <span class="sr-only">{{ f.label }} vergrößern</span>
           <img :src="f.src" :alt="f.label" loading="lazy" decoding="async"
-            class="absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-[1.03]" :class="f.pos" />
+            class="absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-[1.03]"
+            :class="f.pos" />
         </button>
         <figcaption class="mt-2 font-mono text-xs text-navy/60">{{ f.label }}</figcaption>
       </figure>

@@ -13,13 +13,13 @@ const arbeiten = [
   { datei: 'flansche', text: 'Spurplatten für Schmalspurschlepper als Dreh- und Frästeil' },
   { datei: 'buchse', text: 'Buchse aus RG7 mit Schmiernut' },
   { datei: 'reparatur', text: 'Lagersitz einer Vorderachse ausbuchsen' },
-  { datei: 'welle', text: 'Welle nach Muster neu gefertigt, links das alte Teil' },
+  { datei: 'welle', text: 'Herstellung von Pumpenwelle aus V4A nach Musterteil' },
   { datei: 'riemenscheibe', text: 'Herstellen von Riemenscheibe passend auf Mehrkantverzahnung' },
 ].map((a) => ({ ...a, src: bilder[`../assets/fotos/${a.datei}.jpg`]! }))
 
 type Wert = { name: string; wert: string; offen?: boolean }
 
-const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad'; text: string; werte: Wert[]; maschinen?: boolean }[] = [
+const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'buchse' | 'montage' | 'zahnrad'; text: string; werte: Wert[] }[] = [
   {
     titel: 'Individuelle Lösungen',
     skizze: 'zahnrad' as const,
@@ -28,7 +28,6 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
   },
   {
     titel: 'Drehen',
-    maschinen: true,
     skizze: 'welle' as const,
     text: 'Wellen, Bolzen, Buchsen, Flansche – alles, was rund ist.',
     werte: [
@@ -38,7 +37,6 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
   },
   {
     titel: 'Fräsen',
-    maschinen: true,
     skizze: 'fraesteil' as const,
     text: 'Platten, Halter, Gehäuse, Taschen und Bohrbilder.',
     werte: [
@@ -49,8 +47,11 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
   {
     titel: 'Metall&shy;bearbeitung',
     skizze: 'winkel' as const,
-    text: 'Bohren, Sägen, Schweißen. Veredlung durch Oberflächen- und Wärmebehandlung.',
-    werte: [{ name: 'Schweißen', wert: 'MAG · WIG' }],
+    text: 'Bohren, Sägen, Schweißen. Oberflächen- und Wärmebehandlung über Partner.',
+    werte: [
+      { name: 'Schweißen', wert: 'MAG · WIG' },
+      { name: 'Veredlung', wert: 'z. B. Eloxieren, Härten, Lackieren' },
+    ],
   },
   {
     titel: 'Reparatur &amp; Sonder&shy;teile',
@@ -67,6 +68,8 @@ const leistungen: { titel: string; skizze: 'welle' | 'fraesteil' | 'winkel' | 'b
 ]
 
 const ansicht = ref<number | null>(null)
+const portraitOffen = ref<number | null>(null)
+const portrait = [{ src: bilder['../assets/fotos/mirco-kontakt.jpg']!, text: 'Mirco Schüssele an der Hermle UWF 1202 S' }]
 
 const ADRESSE = 'Vogesenstraße 1, 77743 Neuried'
 const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADRESSE)}`
@@ -122,9 +125,7 @@ const titleBlock = [
               class="flex items-baseline gap-3 border-b border-navy/15 py-2 sm:block sm:border-b-0 sm:pt-3 sm:pr-3 sm:pb-0"
               :class="i > 0 && 'sm:border-l sm:border-navy/20 sm:pl-3'">
               <dt class="w-28 shrink-0 text-[0.8125rem] text-navy/75 sm:mb-1 sm:w-auto">{{ f.label }}</dt>
-              <dd>
-                <PlaceholderText>{{ f.value }}</PlaceholderText>
-              </dd>
+              <dd class="text-teal-dark">{{ f.value }}</dd>
             </div>
           </dl>
         </div>
@@ -167,21 +168,23 @@ const titleBlock = [
           <h3 class="mb-2 text-2xl font-semibold" v-html="l.titel" />
           <p class="mb-6">{{ l.text }}</p>
           <div>
-          <dl v-if="l.werte.length"
-            class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
-            <template v-for="w in l.werte" :key="w.name">
-              <dt class="text-navy/75">{{ w.name }}</dt>
-              <dd>
-                <PlaceholderText v-if="w.offen">Platzhalter</PlaceholderText>
-                <template v-else>{{ w.wert }}</template>
-              </dd>
-            </template>
-          </dl>
-          <RouterLink v-if="l.maschinen" :to="{ path: '/werkstatt', hash: '#maschinen' }"
-            class="mt-4 inline-block text-[0.95rem] font-semibold">Zum Maschinenpark →</RouterLink>
+            <dl v-if="l.werte.length"
+              class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 border-t border-navy/20 pt-4 font-mono text-sm">
+              <template v-for="w in l.werte" :key="w.name">
+                <dt class="text-navy/75">{{ w.name }}</dt>
+                <dd>
+                  <PlaceholderText v-if="w.offen">Platzhalter</PlaceholderText>
+                  <template v-else>{{ w.wert }}</template>
+                </dd>
+              </template>
+            </dl>
           </div>
         </article>
       </div>
+
+      <RouterLink :to="{ path: '/werkstatt', hash: '#maschinen' }"
+        class="mt-8 inline-flex min-h-[3rem] items-center justify-center border border-navy px-6 py-3 text-base font-semibold text-navy no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark hover:text-white">
+        Zum Maschinenpark</RouterLink>
 
       <div class="mt-12 grid gap-8 lg:grid-cols-3 lg:gap-0">
         <div class="lg:pr-10">
@@ -199,7 +202,7 @@ const titleBlock = [
         <div class="lg:pl-10">
           <h3 class="mb-1.5 text-lg font-semibold">Zusätzliche Dienstleistungen</h3>
           <p>
-            Abholung und Lieferung, Weiterbearbeitung.
+            Abholung und Lieferung.
           </p>
         </div>
       </div>
@@ -243,10 +246,12 @@ const titleBlock = [
             <div class="grid grid-cols-[8.5rem_1fr] items-center gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Ansprechpartner</dt>
               <dd class="flex items-center gap-3">
-                <span class="relative size-12 shrink-0 overflow-hidden rounded-full border border-navy/60 bg-[#e9edf1]">
-                  <span
-                    class="absolute inset-0 flex items-center justify-center font-mono text-[0.55rem] text-teal-dark">[Foto]</span>
-                </span>
+                <button type="button" class="shrink-0 cursor-zoom-in rounded-full p-0" @click="portraitOffen = 0">
+                  <span class="sr-only">Foto von Mirco Schüssele vergrößern</span>
+                  <img :src="bilder['../assets/fotos/mirco.jpg']" alt="Mirco Schüssele" width="64" height="64"
+                    class="size-16 rounded-full border border-navy/60 object-cover transition-transform duration-300 hover:scale-105" />
+                </button>
+                <BildAnsicht v-model="portraitOffen" :bilder="portrait" />
                 <span class="font-semibold">Mirco Schüssele</span>
               </dd>
             </div>

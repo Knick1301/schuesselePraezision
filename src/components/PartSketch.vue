@@ -354,11 +354,13 @@ const zahnrad = (() => {
 const shape = computed(() => ({ welle, fraesteil, winkel, buchse, montage, zahnrad })[props.type])
 
 const viewBox = computed(() => {
-  const nums = [shape.value.center, ...shape.value.main]
-    .flatMap((d) => [...d.matchAll(/[ML]\s*(-?[\d.]+)\s+(-?[\d.]+)/g)])
-    .map((m) => [Number(m[1]), Number(m[2])] as P)
-  const xs = nums.map((p) => p[0])
-  const ys = nums.map((p) => p[1])
+  const pts = (paths: string[]) =>
+    paths
+      .flatMap((d) => [...d.matchAll(/[ML]\s*(-?[\d.]+)\s+(-?[\d.]+)/g)])
+      .map((m) => [Number(m[1]), Number(m[2])] as P)
+  const body = pts(shape.value.main)
+  const xs = body.map((p) => p[0])
+  const ys = [...body, ...pts([shape.value.center])].map((p) => p[1])
   const pad = 2
   const x0 = Math.min(...xs) - pad
   const y0 = Math.min(...ys) - pad
@@ -367,7 +369,7 @@ const viewBox = computed(() => {
 </script>
 
 <template>
-  <svg ref="root" :viewBox="viewBox" preserveAspectRatio="xMinYMax meet" :class="['sketch', { 'is-drawn': drawn }]" aria-hidden="true">
+  <svg ref="root" :viewBox="viewBox" preserveAspectRatio="xMinYMax meet" :class="['sketch overflow-visible', { 'is-drawn': drawn }]" aria-hidden="true">
     <template v-if="'layers' in shape">
       <g v-for="(layer, li) in shape.layers" :key="'l' + li">
         <g class="fills">
