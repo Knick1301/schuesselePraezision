@@ -111,7 +111,7 @@ const titleBlock = [
               CNC-Drehen <span class="whitespace-nowrap">und -Fräsen</span> in&nbsp;Neuried
             </h1>
             <p class="mb-8 max-w-[38rem] text-[clamp(1rem,1.6vw,1.25rem)]">
-              Dreh- und Frästeile aus Metall nach Ihrer Zeichnung.
+              Dreh- und Frästeile nach Ihrer Zeichnung.
               Inhabergeführt von Mirco Schüssele.
             </p>
             <RouterLink to="/anfrage"

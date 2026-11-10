@@ -11,8 +11,8 @@ const fotos = [
   { label: 'Herstellen einer Vorrichtung', datei: 'bohren', form: 'hoch', pos: '' },
   { label: 'Werkstattausstattung', datei: 'werkbank', form: 'breit', pos: 'object-[50%_85%]' },
   { label: 'Programmieren an der Steuerung', datei: 'programmieren', form: 'hoch', pos: 'object-[50%_70%]' },
-  { label: 'An der Fräsmaschine', datei: 'an-der-hermle', form: 'hoch', pos: '' },
-  { label: 'Werkstück ausrichten', datei: 'einrichten', form: 'hoch', pos: '' },
+  { label: 'Arbeiten an der Fräsmaschine', datei: 'an-der-hermle', form: 'hoch', pos: '' },
+  { label: 'Vermessen der gefrästen Passung', datei: 'einrichten', form: 'hoch', pos: '' },
   { label: 'Martin-Drehbank', datei: 'drehbank', form: 'breit', pos: 'object-[50%_75%]' },
   { label: 'Alzmetall Bohrmaschinen', datei: 'bohrmaschine', form: 'hoch', pos: '' },
 ].map((f) => ({ ...f, src: bilder[`../assets/fotos/${f.datei}.jpg`] }))
@@ -47,7 +47,8 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
         <SectionTitle class="mb-0">Werkstatt</SectionTitle>
         <p class="mt-5 max-w-[40rem] text-lg">
           So sieht es bei uns aus.
-          <PlaceholderText>Platzhalter: kurzer Satz zur Werkstatt, z. B. seit wann es den Betrieb gibt</PlaceholderText>
+          Hier entstehen aus Ideen präzise Werkstücke - mit moderner Technik, handwerklichem Können und Leidenschaft für
+          die Zerspanung.
         </p>
       </div>
       <dl
