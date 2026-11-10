@@ -7,7 +7,7 @@ import PlaceholderText from '../components/PlaceholderText.vue'
 const bilder = import.meta.glob<string>('../assets/fotos/*.jpg', { eager: true, import: 'default' })
 const fotos = [
   { label: 'Hermle UWF 1202 S', datei: 'hermle', form: 'breit', pos: 'object-[50%_85%]' },
-  { label: 'Mirco Schüssele', datei: 'mirco-hermle', form: 'hoch', pos: '' },
+  { label: 'Mirco Schüssele und seine Hermle, liebevoll "Hermine" genannt', datei: 'mirco-hermle', form: 'hoch', pos: '' },
   { label: 'Herstellen einer Vorrichtung', datei: 'bohren', form: 'hoch', pos: '' },
   { label: 'Werkstattausstattung', datei: 'werkbank', form: 'breit', pos: 'object-[50%_85%]' },
   { label: 'Programmieren an der Steuerung', datei: 'programmieren', form: 'hoch', pos: 'object-[50%_70%]' },
@@ -46,7 +46,7 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
       <div>
         <SectionTitle class="mb-0">Werkstatt</SectionTitle>
         <p class="mt-5 max-w-[40rem] text-lg">
-          So sieht es bei uns aus.
+          So sieht es bei uns aus. <br />
           Hier entstehen aus Ideen präzise Werkstücke - mit moderner Technik, handwerklichem Können und Leidenschaft für
           die Zerspanung.
         </p>
@@ -82,9 +82,6 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
     <div class="mx-auto max-w-wide px-pad py-14 md:py-20">
       <header class="mb-10 max-w-[46rem] lg:mb-14">
         <SectionTitle id="maschinen-title" class="mb-0">Maschinen</SectionTitle>
-        <p class="mt-5 max-w-[40rem] text-lg">
-          Damit Sie einschätzen können, ob Ihr Teil bei uns passt.
-        </p>
       </header>
 
       <div class="overflow-x-auto">
@@ -112,9 +109,9 @@ const ansichtBilder = fotos.map((f) => ({ src: f.src!, text: f.label }))
   </section>
 
   <section class="mx-auto flex max-w-wide flex-wrap items-center justify-between gap-6 px-pad py-14 md:py-16">
-    <p class="text-lg">Passt Ihr Teil? Schicken Sie uns die Zeichnung.</p>
+    <p class="text-lg">Präzision beginnt mit Ihrer Anfrage!</p>
     <RouterLink to="/anfrage"
       class="inline-flex min-h-[2.9rem] items-center justify-center border border-navy bg-navy px-5 py-2.5 text-[0.95rem] font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">
-      Zum Anfrageformular</RouterLink>
+      Jetzt Fertigungsanfrage stellen</RouterLink>
   </section>
 </template>

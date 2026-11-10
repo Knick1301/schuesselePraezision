@@ -116,8 +116,7 @@ const titleBlock = [
             </p>
             <RouterLink to="/anfrage"
               class="inline-flex min-h-[3rem] items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">
-              Zum
-              Anfrageformular</RouterLink>
+              Jetzt Fertigungsanfrage stellen</RouterLink>
           </div>
 
           <dl class="mt-10 grid max-w-[38rem] border-t border-navy/40 font-mono text-sm sm:grid-cols-3">
@@ -156,7 +155,7 @@ const titleBlock = [
         <SectionTitle id="leistungen-title" class="mb-0">Leistungen</SectionTitle>
         <p class="mt-5 max-w-[40rem] text-lg">
           Wir fertigen Teile aus Metall auf CNC-Dreh- und Fräsmaschinen. Sie schicken die
-          Zeichnung, wir sagen Ihnen, ob und wann wir es machen können.
+          Zeichnung, wir helfen Ihnen schnell und flexibel.
         </p>
       </header>
 
