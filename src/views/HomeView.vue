@@ -76,7 +76,7 @@ const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encode
 
 const facts = [
   { label: 'Inhaber', value: 'Mirco Schüssele' },
-  { label: 'Werkstoffe', value: 'z. B. Stahl, Alu' },
+  { label: 'Gegründet', value: 'April 2025' },
   { label: 'Region', value: 'Ortenau' },
 ]
 
@@ -270,7 +270,8 @@ const titleBlock = [
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Erreichbar</dt>
               <dd>
-                Mo - Fr: &ensp; ab 16 Uhr
+                Per E-Mail: &ensp; jederzeit<br>
+                Telefonisch: &ensp; Mo - Fr: ab 16 Uhr
               </dd>
             </div>
           </dl>
