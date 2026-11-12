@@ -54,7 +54,7 @@ watch(
 <template>
   <header class="sticky top-0 z-50 border-b border-white/10 bg-navy">
 
-    <div class="mx-auto flex min-h-25 max-w-[1800px] items-center gap-4 px-pad">
+    <div class="mx-auto flex min-h-20 max-w-[1800px] items-center gap-4 px-pad nav:min-h-25">
       <RouterLink to="/" class="mr-auto flex items-center gap-3 py-2 no-underline"
         aria-label="Schüssele Präzision – Startseite" @click="open = false">
         <BrandLogo variant="mark" tone="dark" class="h-11 w-auto shrink-0 nav:h-20" aria-hidden="true" />
@@ -88,9 +88,10 @@ watch(
       <button type="button" class="flex size-11 cursor-pointer flex-col justify-center gap-1.5 px-2.5 nav:hidden"
         :aria-expanded="open" aria-controls="hauptnav" @click="open = !open">
         <span class="sr-only">Menü</span>
-        <span class="block h-[1.5px] bg-white transition-transform" :class="open && 'translate-y-[3.75px] rotate-45'" />
+        <span class="block h-[1.5px] bg-white transition-transform" :class="open && 'translate-y-[7.5px] rotate-45'" />
+        <span class="block h-[1.5px] bg-white transition-opacity" :class="open && 'opacity-0'" />
         <span class="block h-[1.5px] bg-white transition-transform"
-          :class="open && '-translate-y-[3.75px] -rotate-45'" />
+          :class="open && '-translate-y-[7.5px] -rotate-45'" />
       </button>
     </div>
 

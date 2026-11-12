@@ -89,23 +89,23 @@ const titleBlock = [
 <template>
 
   <section
-    class="border-b border-navy/20 bg-paper bg-grid p-3 lg:flex lg:min-h-[min(calc(100svh-15rem),56rem)] lg:flex-col lg:p-5"
+    class="border-b border-navy/20 bg-paper bg-grid lg:flex lg:min-h-[min(calc(100svh-15rem),56rem)] lg:flex-col lg:p-5"
     aria-labelledby="hero-title">
     <div
-      class="relative m-[5px] border border-navy/45 outline outline-offset-[5px] outline-navy/20 lg:flex lg:flex-1 lg:items-center">
+      class="relative lg:m-[5px] lg:flex lg:flex-1 lg:items-center lg:border lg:border-navy/45 lg:outline lg:outline-offset-[5px] lg:outline-navy/20">
       <span aria-hidden="true"
-        class="pointer-events-none absolute top-1.5 right-0 left-8 flex font-mono text-[0.65rem] text-navy/50">
+        class="pointer-events-none absolute top-1.5 right-0 left-8 hidden font-mono text-[0.65rem] text-navy/50 lg:flex">
         <i v-for="n in 6" :key="n" class="flex-1 text-center not-italic">{{ n }}</i>
       </span>
       <span aria-hidden="true"
-        class="pointer-events-none absolute top-8 bottom-0 left-2 flex flex-col font-mono text-[0.65rem] text-navy/50">
+        class="pointer-events-none absolute top-8 bottom-0 left-2 hidden font-mono text-[0.65rem] text-navy/50 lg:flex lg:flex-col">
         <i v-for="z in ['A', 'B', 'C']" :key="z" class="flex flex-1 items-center not-italic">{{ z }}</i>
       </span>
 
       <div
-        class="mx-auto w-full max-w-wide px-pad pt-11 pb-6 lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-16 lg:pt-12 lg:pb-8 xl:gap-20">
-        <div class="max-w-[38rem] lg:pt-[8%]">
-          <div>
+        class="mx-auto flex w-full max-w-wide flex-col gap-8 px-pad pt-8 pb-10 lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-16 lg:pt-12 lg:pb-8 xl:gap-20">
+        <div class="contents lg:block lg:max-w-[38rem] lg:pt-[8%]">
+          <div class="order-1">
             <h1 id="hero-title"
               class="mb-[0.4em] text-[clamp(2rem,4.6vw,4rem)] leading-[1.1] font-bold tracking-[-0.01em] text-balance">
               CNC-Drehen <span class="whitespace-nowrap">und -Fräsen</span> in&nbsp;Neuried
@@ -115,11 +115,11 @@ const titleBlock = [
               Inhabergeführt von Mirco Schüssele.
             </p>
             <RouterLink to="/anfrage"
-              class="inline-flex min-h-[3rem] items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark">
+              class="flex min-h-[3rem] w-full items-center justify-center border border-navy bg-navy px-6 py-3 text-base font-semibold text-white no-underline transition-colors hover:border-teal-dark hover:bg-teal-dark sm:inline-flex sm:w-auto">
               Jetzt Fertigungsanfrage stellen</RouterLink>
           </div>
 
-          <dl class="mt-10 grid max-w-[38rem] border-t border-navy/40 font-mono text-sm sm:grid-cols-3">
+          <dl class="order-3 grid border-t border-navy/40 font-mono text-sm sm:grid-cols-3 lg:mt-10 lg:max-w-[38rem]">
             <div v-for="(f, i) in facts" :key="f.label"
               class="flex items-baseline gap-3 border-b border-navy/15 py-2 sm:block sm:border-b-0 sm:pt-3 sm:pr-3 sm:pb-0"
               :class="i > 0 && 'sm:border-l sm:border-navy/20 sm:pl-3'">
@@ -129,11 +129,11 @@ const titleBlock = [
           </dl>
         </div>
 
-        <div class="mt-14 flex flex-col justify-center lg:mt-0">
+        <div class="order-2 flex flex-col justify-center lg:order-none">
           <MillingMachine class="mb-2 h-auto w-full" />
 
           <dl
-            class="ml-auto grid w-full max-w-[380px] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8rem] text-navy">
+            class="ml-auto hidden w-full max-w-[380px] grid-cols-2 border border-navy/70 bg-white font-mono text-[0.8rem] text-navy lg:grid">
             <div class="col-span-2 px-3 py-1.5">
               <dt class="text-[0.72rem] tracking-[0.06em] uppercase opacity-75">Benennung</dt>
               <dd>CNC-Fräsmaschine</dd>
