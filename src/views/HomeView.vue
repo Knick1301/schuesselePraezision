@@ -256,7 +256,7 @@ const titleBlock = [
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">Telefon</dt>
-              <dd><a href="tel:+4917622759201" class="font-mono no-underline text-2xl text-navy">0176 22759201</a></dd>
+              <dd><a href="tel:+4917622759201" class="font-mono underline text-2xl text-navy">0176 22759201</a></dd>
             </div>
             <div class="grid grid-cols-[8.5rem_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
               <dt class="font-mono text-[0.8125rem] text-navy/75">E-Mail</dt>
