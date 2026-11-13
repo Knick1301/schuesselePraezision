@@ -76,7 +76,7 @@ const routeGoogle = `https://www.google.com/maps/dir/?api=1&destination=${encode
 
 const facts = [
   { label: 'Inhaber', value: 'Mirco Schüssele' },
-  { label: 'Gegründet', value: 'April 2025' },
+  { label: 'Erfahrung', value: '> 10 Jahre CNC-Technik' },
   { label: 'Region', value: 'Ortenau' },
 ]
 
